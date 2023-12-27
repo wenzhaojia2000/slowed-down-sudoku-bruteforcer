@@ -1,0 +1,15 @@
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td {
+	border: 1px solid black;
+	width: 60px;
+	height: 60px;
+}
+
+input {
+	width: 60px;
+	height: 60px;
+}
