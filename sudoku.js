@@ -21,7 +21,7 @@ class SudokuGrid {
 		for (let i=0; i<9; i++) {
 			const row = new Array(9);
 			for (let j=0; j<9; j++) {
-				row[j] = document.getElementById(i.toString() + j.toString()).value;
+				row[j] = document.getElementById(String(i) + String(j)).value;
 			}
 			this.grid[i] = row;
 		}
@@ -29,12 +29,13 @@ class SudokuGrid {
 
 	/**
 	 * @method
-	 * Checks whether the entire SudokuGrid is valid. For a single cell, checkCell should be faster.
+	 * Checks whether the entire SudokuGrid is valid. Raises errors for invalid sudokus with reasoning.
+	 * For a single cell, checkCell should be faster.
 	 * @returns {boolean}
 	 */
 	check() {
 		let is_valid = true;
-		let checkDuplicates = (arr) => {
+		let containsDuplicates = (arr) => {
 			return new Set(arr).size !== arr.length;
 		}
 		// check rows
@@ -46,7 +47,7 @@ class SudokuGrid {
 					entries.push(cell);
 				}
 			}
-			if (checkDuplicates(entries) === true) {
+			if (containsDuplicates(entries)) {
 				console.error(`Duplicate detected in row ${k + 1}`);
 				is_valid = false;
 			}
@@ -61,7 +62,7 @@ class SudokuGrid {
 					entries.push(cell);
 				}
 			}
-			if (checkDuplicates(entries) === true) {
+			if (containsDuplicates(entries)) {
 				console.error(`Duplicate detected in column ${k + 1}`);
 				is_valid = false;
 			}
@@ -77,7 +78,7 @@ class SudokuGrid {
 					entries.push(cell);
 				}
 			}
-			if (checkDuplicates(entries) === true) {
+			if (containsDuplicates(entries)) {
 				console.error(`Duplicate detected in block ${blocks.indexOf(item) + 1}`);
 				is_valid = false;
 			}
@@ -88,7 +89,8 @@ class SudokuGrid {
 
 	/**
 	 * @method
-	 * Checks whether a cell in a SudokuGrid is valid.
+	 * Checks whether a cell in a SudokuGrid is valid. Only returns true or false, no description of
+	 * which rule is broken is given.
 	 * @param {number} i - row index (0-8)
 	 * @param {number} j - column index (0-8)
 	 * @returns {boolean}
@@ -135,13 +137,64 @@ function setUp() {
 			const input = document.createElement("input");
 			input.type = "text";
 			input.maxLength = 1;
-			input.id = i.toString() + j.toString();
+			input.id = String(i) + String(j);
+			input.addEventListener("keydown", validateKeyDown);
 			cell.appendChild(input);
 			row.appendChild(cell);
 		}
 		table.appendChild(row);
 	}
 }
+
+/**
+ * @function
+ * Function called when user presses a button in an input. Either user inputs a number, or presses a
+ * key to move focused input.
+ * @param {KeyboardEvent} event - KeyboardEvent
+ */
+function validateKeyDown(event) {
+	let selected = event.target.id;
+	switch (event.key) {
+		case "1":
+		case "2":
+		case "3":
+		case "4":
+		case "5":
+		case "6":
+		case "7":
+		case "8":
+		case "9":
+		case "Backspace":
+		case "Tab":
+			// type normally
+			break;
+		case "ArrowUp":
+			if (selected[0] !== "0") {
+				document.getElementById(String(Number(selected[0]) - 1) + selected[1]).focus();
+			}
+			break;
+		case "Enter":
+		case "ArrowDown":
+			if (selected[0] !== "8") {
+				document.getElementById(String(Number(selected[0]) + 1) + selected[1]).focus();
+			}
+			break;
+		case "ArrowLeft":
+			if (selected[1] !== "0") {
+				document.getElementById(selected[0] + String(Number(selected[1]) - 1)).focus();
+			}
+			break;
+		case "ArrowRight":
+			if (selected[1] !== "8") {
+				document.getElementById(selected[0] + String(Number(selected[1]) + 1)).focus();
+			}
+			break;
+		default:
+			// prevent this key from being input
+			event.preventDefault();
+	}
+}
+
 
 /**
  * @function
