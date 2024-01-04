@@ -12,10 +12,11 @@ class SudokuGrid {
 	 * @param {string} fill_in_method - dictates which cells should be filled in first (to be added).
 	 * @param {string} sudoku_type - dictates which sudoku variant to use (to be added).
 	 */
-	constructor(table, fill_in_method, sudoku_type) {
-		this.table = table;
+	constructor(fill_in_method, sudoku_type) {
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
+		
+		this.table = document.getElementById("sudoku");
 		// get filled in numbers from table
 		this.grid = new Array(9);
 		for (let i=0; i<9; i++) {
@@ -25,6 +26,7 @@ class SudokuGrid {
 			}
 			this.grid[i] = row;
 		}
+		console.log(this.check());
 	}
 
 	/**
@@ -165,29 +167,34 @@ function validateKeyDown(event) {
 		case "8":
 		case "9":
 		case "Backspace":
+		case "Delete":
 		case "Tab":
 			// type normally
 			break;
 		case "ArrowUp":
 			if (selected[0] !== "0") {
-				document.getElementById(String(Number(selected[0]) - 1) + selected[1]).focus();
+				document.getElementById(String(Number(selected[0]) - 1) + selected[1]).select();
 			}
+			event.preventDefault();
 			break;
 		case "Enter":
 		case "ArrowDown":
 			if (selected[0] !== "8") {
-				document.getElementById(String(Number(selected[0]) + 1) + selected[1]).focus();
+				document.getElementById(String(Number(selected[0]) + 1) + selected[1]).select();
 			}
+			event.preventDefault();
 			break;
 		case "ArrowLeft":
 			if (selected[1] !== "0") {
-				document.getElementById(selected[0] + String(Number(selected[1]) - 1)).focus();
+				document.getElementById(selected[0] + String(Number(selected[1]) - 1)).select();
 			}
+			event.preventDefault();
 			break;
 		case "ArrowRight":
 			if (selected[1] !== "8") {
-				document.getElementById(selected[0] + String(Number(selected[1]) + 1)).focus();
+				document.getElementById(selected[0] + String(Number(selected[1]) + 1)).select();
 			}
+			event.preventDefault();
 			break;
 		default:
 			// prevent this key from being input
@@ -195,15 +202,12 @@ function validateKeyDown(event) {
 	}
 }
 
-
 /**
  * @function
  * Function to call when "Solve" is pressed.
  */
 function solveSudoku() {
-	const table = document.getElementById("sudoku");
-	SUDOKU_GRID = new SudokuGrid(table, "standard", "standard");
-	console.log(SUDOKU_GRID.check());
+	SUDOKU_GRID = new SudokuGrid("standard", "standard");
 }
 
 window.onload = setUp;
