@@ -1,6 +1,13 @@
+h1 {
+	font-family: "Helvetica", sans-serif;
+}
+
 table {
+	min-width: 500px;
+	min-height: 500px;
 	border-collapse: collapse;
 	border-spacing: 0;
+	text-align: center;
 }
 
 td {
@@ -9,7 +16,26 @@ td {
 	height: 60px;
 }
 
+td:first-child {
+	border-left: 3px solid black;
+}
+
+td:nth-child(3n) {
+	border-right: 3px solid black;
+}
+
+tr:first-child {
+	border-top: 3px solid black;
+}
+
+tr:nth-child(3n) {
+	border-bottom: 3px solid black;
+}
+
 input {
 	width: 60px;
 	height: 60px;
+	border-color: transparent;
+	font-size: 250%;
+	text-align: center;
 }
