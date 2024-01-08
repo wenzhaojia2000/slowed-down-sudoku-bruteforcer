@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Realtime sudoku bruteforcer</title>
+	<title>Slowed down sudoku bruteforcer</title>
 	<meta charset="utf-8" />
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<link href="stylesheet.css" rel="stylesheet" type="text/css" />
@@ -9,10 +9,26 @@
 	</script>
 </head>
 <body>
-	<h1>Realtime sudoku bruteforcer</h1>
-	<table id="sudoku">
-		<tr><td>Please enable Javascript for this website to work.</td></tr>
-	</table>
-	<button id="start" onclick="solveSudoku()">Start</button>
+	<h1>Slowed down sudoku bruteforcer</h1>
+	<p>Watch a step-by-step version of a bruteforcer algorithm on a user-provided sudoku puzzle.</p>
+	<div class="flex">
+		<table id="sudoku">
+			<tr><td>Please enable Javascript for this website to work.</td></tr>
+		</table>
+		<div class="flex" id="info">
+			<pre>0</pre>
+			<div>
+				<button id="speed-down">Speed down</button>
+				<button id="speed-stat" disabled>1.00&times;</button>
+				<button id="speed-up">Speed up</button>
+			</div>
+			<div>
+				<button id="reset">Reset</button>
+				<button id="start-pause" onclick="solveSudoku()">Start</button>
+				<button id="skip">Skip to end</button>
+			</div>
+			<div id="errors"></div>
+		</div>
+	</div>
 </body>
 </html>

@@ -1,10 +1,17 @@
-h1 {
+body {
 	font-family: "Helvetica", sans-serif;
+	font-size: 20px;
+	max-width: 1060px;
+	margin: auto;
+}
+
+h1, p {
+	text-align: center;
 }
 
 table {
-	min-width: 500px;
-	min-height: 500px;
+	min-width: 550px;
+	min-height: 550px;
 	border-collapse: collapse;
 	border-spacing: 0;
 	text-align: center;
@@ -12,8 +19,6 @@ table {
 
 td {
 	border: 1px solid black;
-	width: 60px;
-	height: 60px;
 }
 
 td:first-child {
@@ -33,9 +38,53 @@ tr:nth-child(3n) {
 }
 
 input {
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	border-color: transparent;
-	font-size: 250%;
+	font-size: 200%;
 	text-align: center;
 }
+
+pre {
+	margin-top: 0;
+	font-size: 125%;
+}
+
+button {
+	min-width: 150px;
+	font-size: 100%;
+	margin: 4px 1px;
+}
+
+div.flex {
+	display: flex;
+	justify-content: space-between;
+	align-content: space-between;
+	align-items: flex-start;
+}
+
+div#info {
+	padding: 0 20px;
+	min-width: 200px;
+	align-items: center;
+	flex-direction: column;
+}
+
+div#errors {
+	margin: 1em;
+	text-align: center;
+	font-style: italic;
+	color: crimson;
+}
+
+@media (max-width: 1100px) {
+	div.flex {
+		align-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	pre {
+		margin: 1em;
+	}
+ }
