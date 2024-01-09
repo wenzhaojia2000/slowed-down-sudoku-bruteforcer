@@ -145,6 +145,7 @@ function setUp() {
 			const cell = document.createElement("td");
 			const input = document.createElement("input");
 			input.type = "text";
+			input.inputmode = "numeric";
 			input.maxLength = 1;
 			input.id = String(i) + String(j);
 			input.addEventListener("keydown", validateKeyDown);
@@ -214,8 +215,7 @@ function validateKeyDown(event) {
  * Function to call when "Solve" is pressed.
  */
 function solveSudoku() {
-	SUDOKU_GRID = new SudokuGrid("standard", "standard");
+	globalThis.sudoku = new SudokuGrid("standard", "standard");
 }
 
 window.onload = setUp;
-let SUDOKU_GRID = null;
