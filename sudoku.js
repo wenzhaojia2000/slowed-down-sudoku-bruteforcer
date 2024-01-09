@@ -26,17 +26,27 @@ class SudokuGrid {
 			}
 			this.grid[i] = row;
 		}
-		console.log(this.check());
+
+		// check for errors
+		const error_div = document.getElementById("errors");
+		error_div.innerHTML = "";
+		const errors = this.check();
+		if (errors.length !== 0) {
+			for (let i=0; i<errors.length; i++) {
+				error_div.innerHTML += errors[i] + "<br/>";
+			}
+		}
 	}
 
 	/**
 	 * @method
-	 * Checks whether the entire SudokuGrid is valid. Raises errors for invalid sudokus with reasoning.
+	 * Checks whether the entire SudokuGrid is valid. Returns a list of strings containing error messages
+	 * for invalid sudokus. For valid sudokus, returns an empty array.
 	 * For a single cell, checkCell should be faster.
-	 * @returns {boolean}
+	 * @returns {Array}
 	 */
 	check() {
-		let is_valid = true;
+		let errors = new Array();
 		let containsDuplicates = (arr) => {
 			return new Set(arr).size !== arr.length;
 		}
@@ -50,8 +60,7 @@ class SudokuGrid {
 				}
 			}
 			if (containsDuplicates(entries)) {
-				console.error(`Duplicate detected in row ${k + 1}`);
-				is_valid = false;
+				errors.push(`Duplicate detected in row ${k + 1}`);
 			}
 		}
 
@@ -65,8 +74,7 @@ class SudokuGrid {
 				}
 			}
 			if (containsDuplicates(entries)) {
-				console.error(`Duplicate detected in column ${k + 1}`);
-				is_valid = false;
+				errors.push(`Duplicate detected in column ${k + 1}`);
 			}
 		}
 
@@ -81,12 +89,11 @@ class SudokuGrid {
 				}
 			}
 			if (containsDuplicates(entries)) {
-				console.error(`Duplicate detected in block ${blocks.indexOf(item) + 1}`);
-				is_valid = false;
+				errors.push(`Duplicate detected in block ${blocks.indexOf(item) + 1}`);
 			}
 		});
 
-		return is_valid;
+		return errors;
 	}
 
 	/**
