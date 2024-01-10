@@ -16,6 +16,7 @@ class SudokuGrid {
 		this.sudoku_type = sudoku_type;
 		
 		this.table = document.getElementById("sudoku");
+		this.fixed_numbers = new Array();
 		// get filled in numbers from table
 		this.grid = new Array(9);
 		for (let i=0; i<9; i++) {
@@ -34,7 +35,42 @@ class SudokuGrid {
 			for (let i=0; i<errors.length; i++) {
 				error_div.innerHTML += errors[i] + "<br/>";
 			}
+			return;
 		}
+
+		// freeze cells, set classnames, fill in fixed numbers array
+		for (let i=0; i<9; i++) {
+			for (let j=0; j<9; j++) {
+				let cell = document.getElementById(String(i) + String(j));
+				cell.disabled = true;
+				if (cell.value !== "") {
+					cell.className = "fixed";
+					this.fixed_numbers.push(String(i) + String(j));
+				} else {
+					cell.className = "unfilled";
+				}
+			}
+		}
+		
+	}
+
+	/**
+	 * @method
+	 * Resets the table, removing numbers filled in by algorithm.
+	 */
+	reset() {
+		for (let i=0; i<9; i++) {
+			for (let j=0; j<9; j++) {
+				let cell = document.getElementById(String(i) + String(j));
+				if (cell.className === "unfilled") {
+					cell.value = "";
+				}
+				cell.disabled = false;
+				cell.className = "sudoku";
+			}
+		}
+		delete this.grid;
+		delete this.fixed_numbers;
 	}
 
 	/**

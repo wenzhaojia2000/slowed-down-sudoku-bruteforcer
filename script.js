@@ -15,6 +15,7 @@ function setUp() {
 			const cell = document.createElement("td");
 			const input = document.createElement("input");
 			input.type = "text";
+			input.className = "sudoku";
 			input.inputmode = "numeric";
 			input.maxLength = 1;
 			input.id = String(i) + String(j);
@@ -86,6 +87,16 @@ function validateKeyDown(event) {
  */
 function solveSudoku() {
 	globalThis.sudoku = new SudokuGrid("standard", "standard");
+}
+
+/**
+ * @function
+ * Function to call when "Reset" is pressed.
+ */
+function resetSudoku() {
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.reset();
+	}
 }
 
 window.onload = setUp;

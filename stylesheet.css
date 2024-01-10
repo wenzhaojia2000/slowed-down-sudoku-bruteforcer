@@ -37,12 +37,22 @@ tr:nth-child(3n) {
 	border-bottom: 3px solid black;
 }
 
-input {
+input.sudoku, input.fixed, input.unfilled, input.complete {
 	width: 50px;
 	height: 50px;
+	background-color: transparent;
 	border-color: transparent;
 	font-size: 200%;
 	text-align: center;
+	padding: 1px;
+}
+
+input.unfilled {
+	color: crimson;
+}
+
+input.complete {
+	color: limegreen;
 }
 
 pre {
