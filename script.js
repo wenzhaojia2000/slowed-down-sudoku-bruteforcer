@@ -5,7 +5,7 @@
  * Function to call when website is loaded.
  */
 function setUp() {
-	const table = document.getElementById("sudoku");
+	const table = document.getElementById("table");
 	// remove enable javascript message
 	table.innerHTML = "";
 	// add 9x9 grid

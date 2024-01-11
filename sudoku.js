@@ -15,10 +15,16 @@ class SudokuGrid {
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
 		
-		this.table = document.getElementById("sudoku");
-		this.fixed_numbers = new Array();
-		// get filled in numbers from table
+		// current iteration of the algorithm
+		this.iter = 0;
+		// contains [i,j] of empty cells
+		this.unfilled_cells = new Array();
+		// details which index in this.unfilled_cells the algorithm is bruteforcing
+		this.index = 0;
+		// copy of the sudoku that user fills in
 		this.grid = new Array(9);
+		
+		// get filled in numbers from table
 		for (let i=0; i<9; i++) {
 			const row = new Array(9);
 			for (let j=0; j<9; j++) {
@@ -45,13 +51,15 @@ class SudokuGrid {
 				cell.disabled = true;
 				if (cell.value !== "") {
 					cell.className = "fixed";
-					this.fixed_numbers.push(String(i) + String(j));
 				} else {
 					cell.className = "unfilled";
+					this.unfilled_cells.push([i, j]);
 				}
 			}
 		}
-		
+
+		// call this.nextStep every 50ms
+		this.timer = setInterval(() => this.nextStep(), 50);
 	}
 
 	/**
@@ -59,6 +67,7 @@ class SudokuGrid {
 	 * Resets the table, removing numbers filled in by algorithm.
 	 */
 	reset() {
+		clearInterval(this.timer);
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				let cell = document.getElementById(String(i) + String(j));
@@ -69,8 +78,10 @@ class SudokuGrid {
 				cell.className = "sudoku";
 			}
 		}
+		document.getElementById("iter").innerHTML = "0";
 		delete this.grid;
-		delete this.fixed_numbers;
+		delete this.unfilled_cells;
+		delete this.timer;
 	}
 
 	/**
@@ -163,4 +174,46 @@ class SudokuGrid {
 		return true;
 	}
 
+	/**
+	 * @method
+	 * Completes n_steps iterations of the bruteforce algorithm.
+	 * @param {number} n_steps - number of bruteforce steps to take.
+	 */
+	nextStep(n_steps=1) {
+		for (let n=0; n<n_steps; n++){
+			if (this.index < 0) {
+				console.log("Sudoku is impossible?");
+				clearInterval(this.timer);
+				break;
+			} else if (this.index == this.unfilled_cells.length) {
+				console.log("Sudoku is complete");
+				clearInterval(this.timer);
+				break;
+			}
+			
+			let i = this.unfilled_cells[this.index][0];
+			let j = this.unfilled_cells[this.index][1];
+			if (this.grid[i][j] === "") {
+				// new square
+				this.grid[i][j] = "0";
+			}
+			// increment this cell
+			this.grid[i][j] = String(Number(this.grid[i][j]) + 1);
+			
+			if (this.grid[i][j] === "10") {
+				// actually cannot increment this square, backtrack
+				this.grid[i][j] = "";
+				this.index--;
+			} else if (this.checkCell(i, j)) {
+				// number is fine, go to next square
+				this.index++;
+			}
+
+			// update value on screen
+			document.getElementById(String(i) + String(j)).value = String(this.grid[i][j]);
+			// update iteration
+			this.iter++;
+		}
+		document.getElementById("iter").innerHTML = String(this.iter);
+	}
 }
