@@ -16,6 +16,7 @@ function setUp() {
 			const input = document.createElement("input");
 			input.type = "text";
 			input.className = "sudoku";
+			input.pattern = "[0-9]*";
 			input.inputmode = "numeric";
 			input.maxLength = 1;
 			input.id = String(i) + String(j);

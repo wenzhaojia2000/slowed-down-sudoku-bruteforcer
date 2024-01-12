@@ -11,18 +11,18 @@
 <body>
 	<h1>Slowed down sudoku bruteforcer</h1>
 	<p>Watch a step-by-step version of a bruteforcer algorithm on a user-provided sudoku puzzle.</p>
-	<div class="flex">
+	<div class="outer">
 		<table id="table">
 			<tr><td>Please enable Javascript for this website to work.</td></tr>
 		</table>
-		<div class="flex" id="info">
+		<div class="info">
 			<pre id="iter">0</pre>
-			<div>
+			<div class="buttons">
 				<button id="speed-down">Speed down</button>
 				<button id="speed-stat" disabled>1.00&times;</button>
 				<button id="speed-up">Speed up</button>
 			</div>
-			<div>
+			<div class="buttons">
 				<button id="reset" onclick="resetSudoku()">Reset</button>
 				<button id="start-pause" onclick="solveSudoku()">Start</button>
 				<button id="skip">Skip to end</button>
