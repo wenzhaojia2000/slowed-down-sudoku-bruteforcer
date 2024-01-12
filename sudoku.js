@@ -23,6 +23,8 @@ class SudokuGrid {
 		this.index = 0;
 		// copy of the sudoku that user fills in
 		this.grid = new Array(9);
+		// speed of iteration
+		this.speed = 15.625;
 		
 		// get filled in numbers from table
 		for (let i=0; i<9; i++) {
@@ -58,8 +60,8 @@ class SudokuGrid {
 			}
 		}
 
-		// call this.nextStep every 50ms
-		this.timer = setInterval(() => this.nextStep(), 50);
+		// call this.nextStep every 1000ms/speed
+		this.changeSpeed(1);
 	}
 
 	/**
@@ -79,6 +81,7 @@ class SudokuGrid {
 			}
 		}
 		document.getElementById("iter").innerHTML = "0";
+		document.getElementById("speed-stat").innerHTML = "1&times;";
 		delete this.grid;
 		delete this.unfilled_cells;
 		delete this.timer;
@@ -215,5 +218,24 @@ class SudokuGrid {
 			this.iter++;
 		}
 		document.getElementById("iter").innerHTML = String(this.iter);
+	}
+
+	/**
+	 * @method
+	 * Changes the speed at which the bruteforcing occurs.
+	 * @param {number} factor - proportion to multiply speed by.
+	 */
+	changeSpeed(factor) {
+		clearInterval(this.timer);
+		this.speed *= factor;
+		if (this.speed > 250) {
+			// generally, setInterval delay is capped at once per 4ms (250Hz). if speed exceeds this, do
+			// multiple iterations per interval. (at the moment, this conversion only works well if factor
+			// is a multiple of 2)
+			this.timer = setInterval(() => this.nextStep(this.speed/250), 1000/this.speed);
+		} else {
+			this.timer = setInterval(() => this.nextStep(), 1000/this.speed);
+		}
+		document.getElementById("speed-stat").innerHTML = String(this.speed/15.625) + "&times;";
 	}
 }

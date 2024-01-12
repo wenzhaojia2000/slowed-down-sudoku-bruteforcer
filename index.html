@@ -18,14 +18,14 @@
 		<div class="info">
 			<pre id="iter">0</pre>
 			<div class="buttons">
-				<button id="speed-down">Speed down</button>
-				<button id="speed-stat" disabled>1.00&times;</button>
-				<button id="speed-up">Speed up</button>
+				<button id="speed-down" onclick="speedDown()">Speed down</button>
+				<button id="speed-stat" disabled>1&times;</button>
+				<button id="speed-up" onclick="speedUp()">Speed up</button>
 			</div>
 			<div class="buttons">
 				<button id="reset" onclick="resetSudoku()">Reset</button>
 				<button id="start-pause" onclick="solveSudoku()">Start</button>
-				<button id="skip">Skip to end</button>
+				<button id="skip" disabled>Skip to end</button>
 			</div>
 			<div id="errors"></div>
 		</div>

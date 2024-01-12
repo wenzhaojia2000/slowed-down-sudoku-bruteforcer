@@ -100,4 +100,24 @@ function resetSudoku() {
 	}
 }
 
+/**
+ * @function
+ * Function to call when "Speed Up" is pressed.
+ */
+function speedUp() {
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.changeSpeed(2);
+	}
+}
+
+/**
+ * @function
+ * Function to call when "Speed Down" is pressed.
+ */
+function speedDown() {
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.changeSpeed(0.5);
+	}
+}
+
 window.onload = setUp;
