@@ -73,7 +73,7 @@ class SudokuGrid {
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				let cell = document.getElementById(String(i) + String(j));
-				if (cell.className === "unfilled") {
+				if (cell.className === "unfilled" || cell.className === "complete") {
 					cell.value = "";
 				}
 				cell.disabled = false;
@@ -191,6 +191,14 @@ class SudokuGrid {
 			} else if (this.index == this.unfilled_cells.length) {
 				console.log("Sudoku is complete");
 				clearInterval(this.timer);
+				for (let i=0; i<9; i++) {
+					for (let j=0; j<9; j++) {
+						let cell = document.getElementById(String(i) + String(j));
+						if (cell.className === "unfilled") {
+							cell.className = "complete";
+						}
+					}
+				}
 				break;
 			}
 			
