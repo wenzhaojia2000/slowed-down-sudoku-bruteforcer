@@ -88,6 +88,12 @@ function validateKeyDown(event) {
  */
 function solveSudoku() {
 	globalThis.sudoku = new SudokuGrid("standard", "standard");
+	if (!document.getElementById("errors").innerHTML) {
+		document.getElementById("reset").disabled = false;
+		document.getElementById("speed-down").disabled = false;
+		document.getElementById("speed-up").disabled = false;
+		document.getElementById("start-pause").disabled = true;
+	}
 }
 
 /**
@@ -95,9 +101,12 @@ function solveSudoku() {
  * Function to call when "Reset" is pressed.
  */
 function resetSudoku() {
-	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.reset();
-	}
+	globalThis.sudoku.reset();
+	delete globalThis.sudoku;
+	document.getElementById("reset").disabled = true;
+	document.getElementById("speed-down").disabled = true;
+	document.getElementById("speed-up").disabled = true;
+	document.getElementById("start-pause").disabled = false;
 }
 
 /**
@@ -105,9 +114,7 @@ function resetSudoku() {
  * Function to call when "Speed Up" is pressed.
  */
 function speedUp() {
-	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.changeSpeed(2);
-	}
+	globalThis.sudoku.changeSpeed(2);
 }
 
 /**
@@ -115,9 +122,7 @@ function speedUp() {
  * Function to call when "Speed Down" is pressed.
  */
 function speedDown() {
-	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.changeSpeed(0.5);
-	}
+	globalThis.sudoku.changeSpeed(0.5);
 }
 
 window.onload = setUp;

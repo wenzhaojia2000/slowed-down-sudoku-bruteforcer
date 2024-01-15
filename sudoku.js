@@ -82,9 +82,6 @@ class SudokuGrid {
 		}
 		document.getElementById("iter").innerHTML = "0";
 		document.getElementById("speed-stat").innerHTML = "1&times;";
-		delete this.grid;
-		delete this.unfilled_cells;
-		delete this.timer;
 	}
 
 	/**
