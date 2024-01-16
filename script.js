@@ -109,6 +109,8 @@ function resetSudoku() {
 	document.getElementById("speed-up").disabled = true;
 	document.getElementById("skip").disabled = true;
 	document.getElementById("start-pause").disabled = false;
+	document.getElementById("iter").innerHTML = "0";
+	document.getElementById("speed-stat").innerHTML = "1&times;";
 }
 
 /**

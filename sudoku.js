@@ -80,8 +80,6 @@ class SudokuGrid {
 				cell.className = "sudoku";
 			}
 		}
-		document.getElementById("iter").innerHTML = "0";
-		document.getElementById("speed-stat").innerHTML = "1&times;";
 	}
 
 	/**
@@ -188,6 +186,7 @@ class SudokuGrid {
 			} else if (this.index == this.unfilled_cells.length) {
 				console.log("Sudoku is complete");
 				clearInterval(this.timer);
+				// recolour red cells green
 				for (let i=0; i<9; i++) {
 					for (let j=0; j<9; j++) {
 						let cell = document.getElementById(String(i) + String(j));
