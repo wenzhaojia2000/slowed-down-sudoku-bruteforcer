@@ -92,6 +92,7 @@ function solveSudoku() {
 		document.getElementById("reset").disabled = false;
 		document.getElementById("speed-down").disabled = false;
 		document.getElementById("speed-up").disabled = false;
+		document.getElementById("skip").disabled = false;
 		document.getElementById("start-pause").disabled = true;
 	}
 }
@@ -106,6 +107,7 @@ function resetSudoku() {
 	document.getElementById("reset").disabled = true;
 	document.getElementById("speed-down").disabled = true;
 	document.getElementById("speed-up").disabled = true;
+	document.getElementById("skip").disabled = true;
 	document.getElementById("start-pause").disabled = false;
 }
 
@@ -123,6 +125,14 @@ function speedUp() {
  */
 function speedDown() {
 	globalThis.sudoku.changeSpeed(0.5);
+}
+
+/**
+ * @function
+ * Function to call when "Skip to end" is pressed.
+ */
+function skipToEnd() {
+	globalThis.sudoku.nextStep(1e9);
 }
 
 window.onload = setUp;
