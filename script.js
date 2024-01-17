@@ -89,7 +89,7 @@ function validateKeyDown(event) {
 function solveSudoku() {
 	globalThis.sudoku = new SudokuGrid("standard", "standard");
 	if (!document.getElementById("errors").innerHTML) {
-		document.getElementById("reset").disabled = false;
+		document.getElementById("reset-clear").disabled = false;
 		document.getElementById("speed-down").disabled = false;
 		document.getElementById("speed-up").disabled = false;
 		document.getElementById("skip").disabled = false;
@@ -104,13 +104,13 @@ function solveSudoku() {
 function resetSudoku() {
 	globalThis.sudoku.reset();
 	delete globalThis.sudoku;
-	document.getElementById("reset").disabled = true;
+	document.getElementById("reset-clear").disabled = true;
 	document.getElementById("speed-down").disabled = true;
 	document.getElementById("speed-up").disabled = true;
 	document.getElementById("skip").disabled = true;
 	document.getElementById("start-pause").disabled = false;
-	document.getElementById("iter").innerHTML = "0";
-	document.getElementById("speed-stat").innerHTML = "1&times;";
+	document.getElementById("iter").value = "0";
+	document.getElementById("speed").value = "15.625";
 }
 
 /**

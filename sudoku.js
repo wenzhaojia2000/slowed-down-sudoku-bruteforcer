@@ -221,7 +221,7 @@ class SudokuGrid {
 			// update iteration
 			this.iter++;
 		}
-		document.getElementById("iter").innerHTML = String(this.iter);
+		document.getElementById("iter").value = String(this.iter);
 	}
 
 	/**
@@ -240,6 +240,6 @@ class SudokuGrid {
 		} else {
 			this.timer = setInterval(() => this.nextStep(), 1000/this.speed);
 		}
-		document.getElementById("speed-stat").innerHTML = String(this.speed/15.625) + "&times;";
+		document.getElementById("speed").value = String(this.speed);
 	}
 }

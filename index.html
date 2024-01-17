@@ -16,17 +16,24 @@
 			<tr><td>Please enable Javascript for this website to work.</td></tr>
 		</table>
 		<div class="info">
-			<pre id="iter">0</pre>
 			<div class="buttons">
-				<button id="speed-down" onclick="speedDown()" disabled>Speed down</button>
-				<button id="speed-stat" disabled>1&times;</button>
-				<button id="speed-up" onclick="speedUp()" disabled>Speed up</button>
+				<button class="large" id="reset-clear" onclick="resetSudoku()" disabled>Reset</button>
+				<button class="large" id="start-pause" onclick="solveSudoku()">Start</button>
 			</div>
-			<div class="buttons">
-				<button id="reset" onclick="resetSudoku()" disabled>Reset</button>
-				<button id="start-pause" onclick="solveSudoku()">Start</button>
-				<button id="skip" onclick="skipToEnd()" disabled>Skip to end</button>
+			<div class="text">
+				<span>Iteration</span>
+				<div>
+					<button class="small" id="next" disabled>+1</button>
+					<button class="small" id="skip" onclick="skipToEnd()" disabled>+&infin;</button></div>
 			</div>
+			<input class="stat" id="iter" type="number" value="0" disabled />
+			<div class="text">
+				<span>Speed (per second)</span>
+				<div>
+					<button class="small" id="speed-down" onclick="speedDown()" disabled>&div;2</button>
+					<button class="small" id="speed-up" onclick="speedUp()" disabled>&times;2</button></div>
+			</div>
+			<input class="stat" id="speed" type="number" min="1" step="any" value="15.625" disabled />
 			<div id="errors"></div>
 		</div>
 	</div>

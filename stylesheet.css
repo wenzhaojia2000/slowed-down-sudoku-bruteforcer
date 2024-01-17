@@ -1,7 +1,7 @@
 body {
 	font-family: "Helvetica", sans-serif;
 	font-size: 20px;
-	max-width: 1060px;
+	max-width: 940px;
 	margin: auto;
 }
 
@@ -37,6 +37,10 @@ tr:nth-child(3n) {
 	border-bottom: 3px solid black;
 }
 
+span {
+	padding: 0 4px;
+}
+
 input.sudoku, input.fixed, input.unfilled, input.complete {
 	width: 50px;
 	height: 50px;
@@ -55,13 +59,28 @@ input.complete {
 	color: limegreen;
 }
 
-pre {
-	margin-top: 0;
-	font-size: 125%;
+input.stat {
+	background-color: transparent;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-bottom: 2px solid #aaa;
+	width: 305px;
+	margin: 0 4px;
+	font-family: monospace;
+	font-size: 120%;
+	text-align: right;
 }
 
-button {
-	min-width: 150px;
+button.large {
+	width: 150px;
+	font-size: 100%;
+	margin: 4px;
+	font-weight: bold;
+}
+
+button.small {
+	width: 40px;
 	font-size: 100%;
 	margin: 4px;
 }
@@ -69,7 +88,6 @@ button {
 div.outer {
 	display: flex;
 	justify-content: space-between;
-	align-content: space-between;
 	align-items: flex-start;
 }
 
@@ -77,12 +95,23 @@ div.info {
 	display: flex;
 	padding: 0 20px;
 	min-width: 200px;
-	align-items: center;
+	align-items: flex-end;
 	flex-direction: column;
 }
 
-div.buttons {
+div.text {
+	min-width: 100%;
+	padding: 10px 0;
 	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+div.buttons {
+	padding-bottom: 20px;
+	min-width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
 
 div#errors {
@@ -92,21 +121,30 @@ div#errors {
 	color: crimson;
 }
 
-@media (max-width: 1100px) {
+
+@media (max-width: 950px) {
 	div.outer {
 		align-content: center;
 		align-items: center;
 		flex-direction: column;
 	}
 
-	pre {
-		margin: 1em;
+	div.buttons {
+		margin-top: 20px;
+	}
+
+	div.info {
+		min-width: 550px;
 	}
 }
 
 @media (max-width: 575px) {
 	body {
 		font-size: 16px;
+	}
+
+	div.info {
+		min-width: 90vw;
 	}
 
 	table {
@@ -117,9 +155,5 @@ div#errors {
 	input.sudoku, input.fixed, input.unfilled, input.complete {
 		width: 8vw;
 		height: 8vw;
-	}
-
-	div.buttons {
-		flex-direction: column;
 	}
 }
