@@ -26,6 +26,7 @@ function setUp() {
 		}
 		table.appendChild(row);
 	}
+	document.getElementById("speed").addEventListener("change", changeSpeed);
 }
 
 /**
@@ -84,14 +85,52 @@ function validateKeyDown(event) {
 
 /**
  * @function
+ * Function called when user changes the speed of the algorithm. Caps speed between 1 and 1000000.
+ * @param {Event} event - Event
+ */
+function changeSpeed(event) {
+	let new_speed = Math.max(1, Math.min(event.target.value, 1e6));
+	event.target.value = new_speed;
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.changeSpeed(new_speed);
+	}
+}
+
+/**
+ * @function
+ * Function to call when "Speed Up" is pressed.
+ */
+function speedUp() {
+	let current_speed = Number(document.getElementById("speed").value);
+	let new_speed = Math.min(2 * current_speed, 1e6);
+	document.getElementById("speed").value = String(new_speed);
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.changeSpeed(new_speed);
+	}
+}
+
+/**
+ * @function
+ * Function to call when "Speed Down" is pressed.
+ */
+function speedDown() {
+	let current_speed = Number(document.getElementById("speed").value);
+	let new_speed = Math.max(1, 0.5 * current_speed);
+	document.getElementById("speed").value = String(new_speed);
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		globalThis.sudoku.changeSpeed(new_speed);
+	}
+}
+
+
+/**
+ * @function
  * Function to call when "Solve" is pressed.
  */
 function solveSudoku() {
 	globalThis.sudoku = new SudokuGrid("standard", "standard");
 	if (!document.getElementById("errors").innerHTML) {
 		document.getElementById("reset-clear").disabled = false;
-		document.getElementById("speed-down").disabled = false;
-		document.getElementById("speed-up").disabled = false;
 		document.getElementById("skip").disabled = false;
 		document.getElementById("start-pause").disabled = true;
 	}
@@ -105,28 +144,9 @@ function resetSudoku() {
 	globalThis.sudoku.reset();
 	delete globalThis.sudoku;
 	document.getElementById("reset-clear").disabled = true;
-	document.getElementById("speed-down").disabled = true;
-	document.getElementById("speed-up").disabled = true;
 	document.getElementById("skip").disabled = true;
 	document.getElementById("start-pause").disabled = false;
 	document.getElementById("iter").value = "0";
-	document.getElementById("speed").value = "15.625";
-}
-
-/**
- * @function
- * Function to call when "Speed Up" is pressed.
- */
-function speedUp() {
-	globalThis.sudoku.changeSpeed(2);
-}
-
-/**
- * @function
- * Function to call when "Speed Down" is pressed.
- */
-function speedDown() {
-	globalThis.sudoku.changeSpeed(0.5);
 }
 
 /**
