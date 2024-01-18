@@ -60,8 +60,29 @@ class SudokuGrid {
 			}
 		}
 
-		// call this.nextStep every 1000ms/speed
-		this.changeSpeed(this.speed);
+		this.play();
+	}
+
+	/**
+	 * @method
+	 * Pauses the bruteforce algorithm at the current step.
+	 */
+	pause() {
+		clearInterval(this.timer);
+	}
+
+	/**
+	 * @method
+	 * Starts or resumes the bruteforce algorithm.
+	 */
+	play() {
+		// clear any existing timer
+		this.pause();
+		// generally, setInterval delay is capped at once per 4ms (250Hz). if speed exceeds this, do
+		// multiple iterations per interval. actual speed = number of iterations / delay
+		let n_intervals = Math.ceil(this.speed/250);
+		let delay = 1000 * Math.ceil(this.speed/250)/this.speed;
+		this.timer = setInterval(() => this.nextStep(n_intervals), delay);
 	}
 
 	/**
@@ -69,7 +90,7 @@ class SudokuGrid {
 	 * Resets the table, removing numbers filled in by algorithm.
 	 */
 	reset() {
-		clearInterval(this.timer);
+		this.pause();
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				let cell = document.getElementById(String(i) + String(j));
@@ -222,21 +243,5 @@ class SudokuGrid {
 			this.iter++;
 		}
 		document.getElementById("iter").value = String(this.iter);
-	}
-
-	/**
-	 * @method
-	 * Changes the speed at which the bruteforcing occurs.
-	 * @param {number} speed - new speed to use (in iterations per second)
-	 */
-	changeSpeed(speed) {
-		clearInterval(this.timer);
-		this.speed = speed;
-		// generally, setInterval delay is capped at once per 4ms (250Hz). if speed exceeds this, do
-		// multiple iterations per interval. actual speed = number of iterations / delay
-		let n_intervals = Math.ceil(this.speed/250);
-		let delay = 1000 * Math.ceil(this.speed/250)/this.speed;
-		this.timer = setInterval(() => this.nextStep(n_intervals), delay);
-		// document.getElementById("speed").value = String(this.speed);
 	}
 }

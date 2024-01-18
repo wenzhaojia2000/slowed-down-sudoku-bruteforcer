@@ -18,12 +18,12 @@
 		<div class="info">
 			<div class="buttons">
 				<button class="large" id="reset-clear" onclick="resetSudoku()" disabled>Reset</button>
-				<button class="large" id="start-pause" onclick="solveSudoku()">Start</button>
+				<button class="large" id="start-pause" onclick="startPauseSudoku()">Start</button>
 			</div>
 			<div class="text">
 				<span>Iteration</span>
 				<div>
-					<button class="small" id="next" disabled>+1</button>
+					<button class="small" id="next" onclick="nextStep()" disabled>+1</button>
 					<button class="small" id="skip" onclick="skipToEnd()" disabled>+&infin;</button></div>
 			</div>
 			<input class="stat" id="iter" type="number" value="0" disabled />

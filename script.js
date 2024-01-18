@@ -92,7 +92,8 @@ function changeSpeed(event) {
 	let new_speed = Math.max(1, Math.min(event.target.value, 1e6));
 	event.target.value = new_speed;
 	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.changeSpeed(new_speed);
+		globalThis.sudoku.speed = new_speed;
+		globalThis.sudoku.play();
 	}
 }
 
@@ -105,7 +106,8 @@ function speedUp() {
 	let new_speed = Math.min(2 * current_speed, 1e6);
 	document.getElementById("speed").value = String(new_speed);
 	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.changeSpeed(new_speed);
+		globalThis.sudoku.speed = new_speed;
+		globalThis.sudoku.play();
 	}
 }
 
@@ -118,21 +120,40 @@ function speedDown() {
 	let new_speed = Math.max(1, 0.5 * current_speed);
 	document.getElementById("speed").value = String(new_speed);
 	if (globalThis.sudoku instanceof SudokuGrid) {
-		globalThis.sudoku.changeSpeed(new_speed);
+		globalThis.sudoku.speed = new_speed;
+		globalThis.sudoku.play();
 	}
 }
 
 
 /**
  * @function
- * Function to call when "Solve" is pressed.
+ * Function to call when "Start" or "Pause" is pressed.
  */
-function solveSudoku() {
+function startPauseSudoku() {
+	// sudoku in progress
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		if (document.getElementById("start-pause").innerText === "Resume") {
+			document.getElementById("start-pause").innerText = "Pause";
+			document.getElementById("next").disabled = true;
+			globalThis.sudoku.play();
+		} else {
+			document.getElementById("start-pause").innerText = "Resume";
+			document.getElementById("next").disabled = false;
+			globalThis.sudoku.pause();
+		}
+		return;
+	}
+
+	// starting a new sudoku
 	globalThis.sudoku = new SudokuGrid("standard", "standard");
-	if (!document.getElementById("errors").innerHTML) {
+	if (document.getElementById("errors").innerHTML) {
+		delete globalThis.sudoku;
+	} else {
 		document.getElementById("reset-clear").disabled = false;
 		document.getElementById("skip").disabled = false;
-		document.getElementById("start-pause").disabled = true;
+		document.getElementById("next").disabled = true;
+		document.getElementById("start-pause").innerText = "Pause";
 	}
 }
 
@@ -145,8 +166,18 @@ function resetSudoku() {
 	delete globalThis.sudoku;
 	document.getElementById("reset-clear").disabled = true;
 	document.getElementById("skip").disabled = true;
-	document.getElementById("start-pause").disabled = false;
+	document.getElementById("next").disabled = true;
+	document.getElementById("start-pause").innerText = "Start";
 	document.getElementById("iter").value = "0";
+}
+
+
+/**
+ * @function
+ * Function to call when "Next step" is pressed.
+ */
+function nextStep() {
+	globalThis.sudoku.nextStep();
 }
 
 /**
