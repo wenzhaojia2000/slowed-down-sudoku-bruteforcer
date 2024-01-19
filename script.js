@@ -150,25 +150,34 @@ function startPauseSudoku() {
 	if (document.getElementById("errors").innerHTML) {
 		delete globalThis.sudoku;
 	} else {
-		document.getElementById("reset-clear").disabled = false;
 		document.getElementById("skip").disabled = false;
 		document.getElementById("next").disabled = true;
+		document.getElementById("reset-clear").innerText = "Reset";
 		document.getElementById("start-pause").innerText = "Pause";
 	}
 }
 
 /**
  * @function
- * Function to call when "Reset" is pressed.
+ * Function to call when "Reset" or "Clear" is pressed.
  */
-function resetSudoku() {
-	globalThis.sudoku.reset();
-	delete globalThis.sudoku;
-	document.getElementById("reset-clear").disabled = true;
-	document.getElementById("skip").disabled = true;
-	document.getElementById("next").disabled = true;
-	document.getElementById("start-pause").innerText = "Start";
-	document.getElementById("iter").value = "0";
+function resetClearSudoku() {
+	if (document.getElementById("reset-clear").innerText === "Clear") {
+		document.getElementById("errors").innerHTML = "";
+		for (let i=0; i<9; i++) {
+			for (let j=0; j<9; j++) {
+				document.getElementById(String(i) + String(j)).value = "";
+			}
+		}
+	} else {
+		globalThis.sudoku.reset();
+		delete globalThis.sudoku;
+		document.getElementById("skip").disabled = true;
+		document.getElementById("next").disabled = true;
+		document.getElementById("reset-clear").innerText = "Clear";
+		document.getElementById("start-pause").innerText = "Start";
+		document.getElementById("iter").value = "0";
+	}
 }
 
 
