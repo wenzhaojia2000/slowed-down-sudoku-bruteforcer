@@ -138,6 +138,7 @@ function startPauseSudoku() {
 			document.getElementById("next").disabled = true;
 			globalThis.sudoku.play();
 		} else {
+			// "Pause"
 			document.getElementById("start-pause").innerText = "Resume";
 			document.getElementById("next").disabled = false;
 			globalThis.sudoku.pause();
@@ -162,14 +163,16 @@ function startPauseSudoku() {
  * Function to call when "Reset" or "Clear" is pressed.
  */
 function resetClearSudoku() {
+	document.getElementById("errors").innerHTML = "";
+	document.getElementById("success").innerHTML = "";
 	if (document.getElementById("reset-clear").innerText === "Clear") {
-		document.getElementById("errors").innerHTML = "";
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				document.getElementById(String(i) + String(j)).value = "";
 			}
 		}
 	} else {
+		// "Reset"
 		globalThis.sudoku.reset();
 		delete globalThis.sudoku;
 		document.getElementById("skip").disabled = true;

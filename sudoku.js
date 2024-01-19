@@ -201,11 +201,11 @@ class SudokuGrid {
 	nextStep(n_steps=1) {
 		for (let n=0; n<n_steps; n++){
 			if (this.index < 0) {
-				console.log("Sudoku is impossible?");
+				document.getElementById("errors").innerHTML = "Sudoku has no solutions";
 				clearInterval(this.timer);
 				break;
 			} else if (this.index == this.unfilled_cells.length) {
-				console.log("Sudoku is complete");
+				document.getElementById("success").innerHTML = "Sudoku has been solved!";
 				clearInterval(this.timer);
 				// recolour red cells green
 				for (let i=0; i<9; i++) {

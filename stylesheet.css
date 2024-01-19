@@ -114,8 +114,15 @@ div.buttons {
 	justify-content: space-between;
 }
 
+div#success {
+	margin-top: 1em;
+	width: 100%;
+	text-align: center;
+	color: limegreen;
+}
+
 div#errors {
-	margin: 1em;
+	width: 100%;
 	text-align: center;
 	font-style: italic;
 	color: crimson;
