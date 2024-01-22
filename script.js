@@ -183,7 +183,6 @@ function resetClearSudoku() {
 	}
 }
 
-
 /**
  * @function
  * Function to call when "Next step" is pressed.
@@ -198,6 +197,31 @@ function nextStep() {
  */
 function skipToEnd() {
 	globalThis.sudoku.nextStep(1e9);
+}
+
+/**
+ * @function
+ * Function to call when "generate a puzzle for me" is pressed. Inputs a pregenerated sudoku into the grid,
+ * allowing the user to view the algorithm without manually inputting one themselves.
+ * 
+ * Randomly generating sudoku puzzles is not currently in the scope of this project.
+ * 121*, 122, 123, 131*, 155, 216*, 234, 260, 281, 282
+ */
+function randomiseSudoku() {
+	if (globalThis.sudoku instanceof SudokuGrid) {
+		return;
+	}
+	let sudokus = [
+		"000100400750600200040007009307009002000240000004306000000000093103000000000020007", // 9275
+	];
+	let pregen = sudokus[Math.floor(sudokus.length * Math.random())];
+	// let pregen = sudokus[sudokus.length - 1];
+	for (let i=0; i<9; i++) {
+		for (let j=0; j<9; j++) {
+			let cell = pregen[9 * i + j];
+			document.getElementById(String(i) + String(j)).value = (cell === "0" ? "" : cell);
+		}
+	}
 }
 
 window.onload = setUp;

@@ -5,6 +5,12 @@ body {
 	margin: auto;
 }
 
+a {
+	color: #55f;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
 h1, p {
 	text-align: center;
 }
