@@ -47,6 +47,12 @@ span {
 	padding: 0 4px;
 }
 
+select {
+	width: 150px;
+	font-size: 100%;
+	margin: 0 4px;
+}
+
 input.sudoku, input.fixed, input.unfilled, input.complete {
 	width: 50px;
 	height: 50px;
@@ -55,6 +61,7 @@ input.sudoku, input.fixed, input.unfilled, input.complete {
 	font-size: 200%;
 	text-align: center;
 	padding: 1px;
+	opacity: 1;
 }
 
 input.unfilled {
@@ -105,7 +112,7 @@ div.info {
 	flex-direction: column;
 }
 
-div.text {
+div.option {
 	min-width: 100%;
 	padding: 10px 0;
 	display: flex;
@@ -114,14 +121,13 @@ div.text {
 }
 
 div.buttons {
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 	min-width: 100%;
 	display: flex;
 	justify-content: space-between;
 }
 
 div#success {
-	margin-top: 1em;
 	width: 100%;
 	text-align: center;
 	color: limegreen;
