@@ -5,6 +5,36 @@
  * Class for storing the sudoku grid and solving it.
  */
 class SudokuGrid {
+	
+	/** 
+	 * current iteration of the algorithm
+	 * @type {number}
+	 */
+	iter = 0;
+
+	/**
+	 * contains [i,j] values of every empty cell
+	 * @type {Array}
+	 */
+	unfilled_cells = new Array();
+
+	/**
+	 * details which index in unfilled_cells the algorithm is bruteforcing
+	 * @type {number}
+	 */
+	index = 0;
+
+	/**
+	 * the 9x9 sudoku grid that user fills in. empty values are represented as 0.
+	 * @type {Array}
+	 */
+	grid = new Array(9);
+
+	/**
+	 * speed of iteration
+	 * @type {number}
+	 */
+	speed = Number(document.getElementById("speed").value);
 
 	/**
 	 * @constructor
@@ -15,22 +45,11 @@ class SudokuGrid {
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
 		
-		// current iteration of the algorithm
-		this.iter = 0;
-		// contains [i,j] of empty cells
-		this.unfilled_cells = new Array();
-		// details which index in this.unfilled_cells the algorithm is bruteforcing
-		this.index = 0;
-		// copy of the sudoku that user fills in
-		this.grid = new Array(9);
-		// speed of iteration
-		this.speed = Number(document.getElementById("speed").value);
-		
 		// get filled in numbers from table
 		for (let i=0; i<9; i++) {
 			const row = new Array(9);
 			for (let j=0; j<9; j++) {
-				row[j] = document.getElementById(String(i) + String(j)).value;
+				row[j] = Number(document.getElementById(String(i) + String(j)).value);
 			}
 			this.grid[i] = row;
 		}
@@ -120,7 +139,7 @@ class SudokuGrid {
 			const entries = new Array();
 			for (let j=0; j<9; j++) {
 				const cell = this.grid[k][j];
-				if (cell !== "") {
+				if (cell !== 0) {
 					entries.push(cell);
 				}
 			}
@@ -134,7 +153,7 @@ class SudokuGrid {
 			const entries = new Array();
 			for (let i=0; i<9; i++) {
 				const cell = this.grid[i][k];
-				if (cell !== "") {
+				if (cell !== 0) {
 					entries.push(cell);
 				}
 			}
@@ -149,7 +168,7 @@ class SudokuGrid {
 			const entries = new Array();
 			for (let k=0; k<9; k++) {
 				const cell = this.grid[item[0] + Math.trunc(k/3)][item[1] + k%3];
-				if (cell !== "") {
+				if (cell !== 0) {
 					entries.push(cell);
 				}
 			}
@@ -221,16 +240,13 @@ class SudokuGrid {
 			
 			let i = this.unfilled_cells[this.index][0];
 			let j = this.unfilled_cells[this.index][1];
-			if (this.grid[i][j] === "") {
-				// new square
-				this.grid[i][j] = "0";
-			}
-			// increment this cell
-			this.grid[i][j] = String(Number(this.grid[i][j]) + 1);
 			
-			if (this.grid[i][j] === "10") {
+			// increment this cell
+			this.grid[i][j] = this.grid[i][j] + 1;
+			
+			if (this.grid[i][j] === 10) {
 				// actually cannot increment this square, backtrack
-				this.grid[i][j] = "";
+				this.grid[i][j] = 0;
 				this.index--;
 			} else if (this.checkCell(i, j)) {
 				// number is fine, go to next square
@@ -238,7 +254,7 @@ class SudokuGrid {
 			}
 
 			// update value on screen
-			document.getElementById(String(i) + String(j)).value = String(this.grid[i][j]);
+			document.getElementById(String(i) + String(j)).value = (this.grid[i][j] === 0) ? "" : String(this.grid[i][j]);
 			// update iteration
 			this.iter++;
 		}
