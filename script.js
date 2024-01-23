@@ -21,6 +21,7 @@ function setUp() {
 			input.maxLength = 1;
 			input.id = String(i) + String(j);
 			input.addEventListener("keydown", validateKeyDown);
+			input.addEventListener("input", moveNextCell);
 			cell.appendChild(input);
 			row.appendChild(cell);
 		}
@@ -31,26 +32,21 @@ function setUp() {
 
 /**
  * @function
- * Function called when user presses a button in an input. Either user inputs a number, or presses a
- * key to move focused input.
+ * Function called when user presses a button in a sudoku cell. Either user inputs a number (1-9), or
+ * presses a key to move focused input. 0 can be input to skip a cell (see moveNextCell)
  * @param {KeyboardEvent} event - KeyboardEvent
  */
 function validateKeyDown(event) {
 	let selected = event.target.id;
+	if (/[1-9]/.test(event.key)) {
+		// type normally
+		return;
+	}
+	// other key inputs
 	switch (event.key) {
-		case "1":
-		case "2":
-		case "3":
-		case "4":
-		case "5":
-		case "6":
-		case "7":
-		case "8":
-		case "9":
 		case "Backspace":
 		case "Delete":
 		case "Tab":
-			// type normally
 			break;
 		case "ArrowUp":
 			if (selected[0] !== "0") {
@@ -80,6 +76,25 @@ function validateKeyDown(event) {
 		default:
 			// prevent this key from being input
 			event.preventDefault();
+	}
+}
+
+/**
+ * @function
+ * Function called when user changes the value in an sudoku cell. If user inputs a number, move to
+ * next cell in the grid. 0 can be input to skip a cell (see validateKeyDown)
+ * @param {KeyboardEvent} event - KeyboardEvent
+ */
+function moveNextCell(event) {
+	let selected = event.target.id;
+	if (/[0-9]/.test(event.data)) {
+		if (selected[1] === "8") {
+			if (selected[0] !== "8") {
+				document.getElementById(String(Number(selected[0]) + 1) + "0").select();
+			}
+		} else {
+			document.getElementById(selected[0] + String(Number(selected[1]) + 1)).select();
+		}
 	}
 }
 
