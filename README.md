@@ -6,7 +6,6 @@ To use, simply open `index.html` in your browser.
 
 ## To-do
 
-- Decouple the two JavaScript files and make `sudoku.js` function independently of the DOM, such that `sudoku.js` can work in, e.g. node.js.
 - Add an import/export tool that works by saving the sudoku in the URL and using `URLSearchParams` to retrieve them.
 - Add ability to solve "X-type" and "Window-type" sudokus.
 - Add ability to customise fill-in order. Random order and "efficient" order (cells with fewer possibilities are filled in first) are planned.
