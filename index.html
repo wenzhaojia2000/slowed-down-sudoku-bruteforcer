@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<link href="stylesheet.css" rel="stylesheet" type="text/css" />
-	<script src="sudoku.js"></script>
+	<script src="bruteforcer.js"></script>
 	<script src="script.js"></script>
 </head>
 <body>
@@ -17,8 +17,8 @@
 		</table>
 		<div class="info">
 			<div class="buttons">
-				<button class="large" id="reset-clear" onclick="resetClearSudoku()">Clear</button>
-				<button class="large" id="start-pause" onclick="startPauseSudoku()">Start</button>
+				<button class="large" id="left-button" onclick="leftButton()">Clear</button>
+				<button class="large" id="right-button" onclick="rightButton()">Start</button>
 			</div>
 			<div id="success"></div>
 			<div id="errors"></div>
