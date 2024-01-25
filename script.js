@@ -112,6 +112,7 @@ const sudoku = {
 	reset() {
 		document.getElementById("skip").disabled = true;
 		document.getElementById("next").disabled = true;
+		document.getElementById("right-button").disabled = false;
 		document.getElementById("left-button").innerText = "Clear";
 		document.getElementById("right-button").innerText = "Start";
 		document.getElementById("iter").value = "0";
@@ -156,11 +157,7 @@ const sudoku = {
 				const [i, j, value] = this.bruteforcer.nextStep();
 				document.getElementById(String(i) + String(j)).value = (value === 0) ? "" : String(value);
 			} catch {
-				if (this.bruteforcer.status === "failure") {
-					this.declareFail();
-				} else {
-					this.declareSuccess();
-				}
+				this.finish(this.bruteforcer.status === "success");
 				break;
 			}
 		}
@@ -169,31 +166,30 @@ const sudoku = {
 
 	/**
 	 * @method
-	 * declare the bruteforcing a failure, finding no possible solution. shows the user an error.
+	 * declare the sudoku finished, either being a success (turns all numbers filled in by the bruteforcer from red
+	 * to green) or a failure (no possible solution, shows the user an error)
+	 * @param {boolean} status - either true (success) or false (failure)
 	 */
-	declareFail() {
-		document.getElementById("errors").innerHTML = "Sudoku has no solutions";
+	finish(status) {
+		document.getElementById("right-button").innerText = "Pause";
+		document.getElementById("next").disabled = true;
+		document.getElementById("skip").disabled = true;
+		document.getElementById("right-button").disabled = true;
 		clearInterval(this.timer);
-	},
-
-	/**
-	 * @method
-	 * declare the bruteforcing a success. turns all numbers filled in by the bruteforcer from red
-	 * to green
-	 */
-	declareSuccess() {
-		document.getElementById("success").innerHTML = "Sudoku has been solved!";
-		clearInterval(this.timer);
-		for (let i=0; i<9; i++) {
-			for (let j=0; j<9; j++) {
-				const cell = document.getElementById(String(i) + String(j));
-				if (cell.className === "unfilled") {
-					cell.className = "complete";
+		if (status) {
+			document.getElementById("success").innerHTML = "Sudoku has been solved!";
+			for (let i=0; i<9; i++) {
+				for (let j=0; j<9; j++) {
+					const cell = document.getElementById(String(i) + String(j));
+					if (cell.className === "unfilled") {
+						cell.className = "complete";
+					}
 				}
 			}
+		} else {
+			document.getElementById("errors").innerHTML = "Sudoku has no solutions";
 		}
 	}
-
 };
 
 /**
