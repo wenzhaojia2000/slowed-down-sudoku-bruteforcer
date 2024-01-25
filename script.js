@@ -23,7 +23,7 @@ const sudoku = {
 	/**
 	 * ID of the setInterval timer
 	 * @type {number}
-	 * @type {null} - if bruteforcer has not yet started or is paused
+	 * @type {null} - if bruteforcer has not yet started, is paused, or sudoku is finished
 	 */
 	timer: null,
 
@@ -102,6 +102,7 @@ const sudoku = {
 		document.getElementById("right-button").innerText = "Resume";
 		document.getElementById("next").disabled = false;
 		clearInterval(this.timer);
+		this.timer = null;
 	},
 
 	/**
@@ -130,6 +131,7 @@ const sudoku = {
 			}
 		}
 		this.bruteforcer = null;
+		this.timer = null;
 	},
 
 	/**
@@ -176,6 +178,7 @@ const sudoku = {
 		document.getElementById("skip").disabled = true;
 		document.getElementById("right-button").disabled = true;
 		clearInterval(this.timer);
+		this.timer = null;
 		if (status) {
 			document.getElementById("success").innerHTML = "Sudoku has been solved!";
 			for (let i=0; i<9; i++) {
@@ -305,7 +308,6 @@ function randomiseSudoku() {
 		"000100400750600200040007009307009002000240000004306000000000093103000000000020007", // 9275
 	];
 	let pregen = sudokus[Math.floor(sudokus.length * Math.random())];
-	// let pregen = sudokus[sudokus.length - 1];
 	for (let i=0; i<9; i++) {
 		for (let j=0; j<9; j++) {
 			let cell = pregen[9 * i + j];
@@ -352,8 +354,8 @@ function speedDown() {
 	const current_speed = Number(document.getElementById("speed").value);
 	const new_speed = Math.max(1, 0.5 * current_speed);
 	document.getElementById("speed").value = String(new_speed);
-	if (sudoku.bruteforcer) {
-		sudoku.speed = new_speed;
+	sudoku.speed = new_speed;
+	if (sudoku.bruteforcer && sudoku.timer) {
 		sudoku.play();
 	}
 }
@@ -366,22 +368,22 @@ function speedUp() {
 	const current_speed = Number(document.getElementById("speed").value);
 	const new_speed = Math.min(2 * current_speed, 1e6);
 	document.getElementById("speed").value = String(new_speed);
-	if (sudoku.bruteforcer) {
-		sudoku.speed = new_speed;
+	sudoku.speed = new_speed;
+	if (sudoku.bruteforcer && sudoku.timer) {
 		sudoku.play();
 	}
 }
 
 /**
  * @function
- * function called when user changes the speed of the algorithm. Caps speed between 1 and 1000000.
+ * function called when user changes the speed of the algorithm. caps speed between 1 and 1000000.
  * @param {Event} event - Event
  */
 function changeSpeed(event) {
 	const new_speed = Math.max(1, Math.min(event.target.value, 1e6));
-	event.target.value = new_speed;
-	if (sudoku.bruteforcer) {
-		sudoku.speed = new_speed;
+	event.target.value = String(new_speed);
+	sudoku.speed = new_speed;
+	if (sudoku.bruteforcer && sudoku.timer) {
 		sudoku.play();
 	}
 }
