@@ -25,7 +25,8 @@ class Bruteforcer {
 	index = 0;
 
 	/**
-	 * whether the bruteforcer is working on, completed, or failed at solving the sudoku
+	 * whether the bruteforcer is working on ("pending"), completed, ("success") or failed at solving the
+	 * sudoku ("failure")
 	 */
 	status = "pending";
 
@@ -40,7 +41,7 @@ class Bruteforcer {
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
 
-		// fill in fixed numbers array
+		// fill in unfilled_cells array
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				if (this.matrix[i][j] === 0) {
@@ -53,7 +54,8 @@ class Bruteforcer {
 
 	/**
 	 * @method
-	 * checks whether the entire matrix is valid. For a single cell, checkCell should be faster.
+	 * checks whether the entire matrix is valid (does not break any rules from the beginning -- does not check that
+	 * the sudoku has a solution). ideally called before bruteforcing.
 	 * @returns {Array} - a list of strings containing error messages for invalid sudokus. For valid sudokus,
 	 * returns an empty array.
 	 */
@@ -110,8 +112,8 @@ class Bruteforcer {
 
 	/**
 	 * @method
-	 * checks whether a cell in the matrix is valid. only returns true or false, no description of
-	 * which rule is broken is given.
+	 * checks whether a cell in the matrix is valid. only returns true or false, no description of which rule is
+	 * broken is given. use check for checking entire sudoku before bruteforcing.
 	 * @param {number} i - row index (0-8)
 	 * @param {number} j - column index (0-8)
 	 * @returns {boolean}
