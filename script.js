@@ -18,7 +18,7 @@ const sudoku = {
 	 * speed of iteration
 	 * @type {number}
 	 */
-	speed: 25,
+	speed: 125,
 
 	/**
 	 * ID of the setInterval timer
