@@ -266,6 +266,11 @@ function validateKeyDown(event) {
 		case "Delete":
 		case "Tab":
 			break;
+		case "0":
+		case "ArrowRight":
+			moveNextCell(event);
+			event.preventDefault();
+			break;
 		case "ArrowUp":
 			if (selected[0] !== "0") {
 				document.getElementById(String(Number(selected[0]) - 1) + selected[1]).select();
@@ -285,12 +290,6 @@ function validateKeyDown(event) {
 			}
 			event.preventDefault();
 			break;
-		case "ArrowRight":
-			if (selected[1] !== "8") {
-				document.getElementById(selected[0] + String(Number(selected[1]) + 1)).select();
-			}
-			event.preventDefault();
-			break;
 		default:
 			// prevent this key from being input
 			event.preventDefault();
@@ -301,11 +300,12 @@ function validateKeyDown(event) {
  * @function
  * function called when user changes the value in an sudoku cell. If user inputs a number, move to
  * next cell in the grid. 0 can be input to skip a cell (see validateKeyDown)
- * @param {KeyboardEvent} event - KeyboardEvent
+ * @param {Event} event - event
  */
 function moveNextCell(event) {
+	const regex = /ArrowRight|\d/;
 	const selected = event.target.id;
-	if (/[0-9]/.test(event.data)) {
+	if (regex.test(event.data) || regex.test(event.key)) {
 		if (selected[1] === "8") {
 			if (selected[0] !== "8") {
 				document.getElementById(String(Number(selected[0]) + 1) + "0").select();
