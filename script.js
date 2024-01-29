@@ -245,6 +245,12 @@ function setUp() {
 		}
 		table.appendChild(row);
 	}
+	document.getElementById("left-button").addEventListener("click", leftButton);
+	document.getElementById("right-button").addEventListener("click", rightButton);
+	document.getElementById("next").addEventListener("click", nextStep);
+	document.getElementById("skip").addEventListener("click", skipToEnd);
+	document.getElementById("speed-down").addEventListener("click", speedDown);
+	document.getElementById("speed-up").addEventListener("click", speedUp);
 	document.getElementById("speed").addEventListener("change", changeSpeed);
 }
 

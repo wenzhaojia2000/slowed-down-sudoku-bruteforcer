@@ -17,24 +17,24 @@
 		</table>
 		<div class="info">
 			<div class="buttons">
-				<button class="large" id="left-button" onclick="leftButton()">Clear</button>
-				<button class="large" id="right-button" onclick="rightButton()">Start</button>
+				<button class="large" id="left-button">Clear</button>
+				<button class="large" id="right-button">Start</button>
 			</div>
 			<div id="success"></div>
 			<div id="errors"></div>
 			<div class="option">
 				<span>Iteration</span>
 				<div>
-					<button class="small" id="next" onclick="nextStep()" disabled>+1</button>
-					<button class="small" id="skip" onclick="skipToEnd()" disabled>+&infin;</button>
+					<button class="small" id="next" disabled>+1</button>
+					<button class="small" id="skip" disabled>+&infin;</button>
 				</div>
 			</div>
 			<input class="stat" id="iter" type="number" value="0" disabled />
 			<div class="option">
 				<span>Speed (per second)</span>
 				<div>
-					<button class="small" id="speed-down" onclick="speedDown()">&div;2</button>
-					<button class="small" id="speed-up" onclick="speedUp()">&times;2</button>
+					<button class="small" id="speed-down">&div;2</button>
+					<button class="small" id="speed-up">&times;2</button>
 				</div>
 			</div>
 			<input class="stat" id="speed" type="number" min="1" step="any" value="125" />
