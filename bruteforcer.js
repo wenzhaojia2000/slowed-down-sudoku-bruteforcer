@@ -159,7 +159,7 @@ class Bruteforcer {
 		
 		const [i, j] = this.unfilled_cells[this.index];
 		// increment this cell
-		this.matrix[i][j] = this.matrix[i][j] + 1;
+		this.matrix[i][j]++;
 		
 		if (this.matrix[i][j] === 10) {
 			// actually cannot increment this square, backtrack

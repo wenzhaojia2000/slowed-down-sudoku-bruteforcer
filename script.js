@@ -329,7 +329,7 @@ function randomiseSudoku() {
 	for (let i=0; i<9; i++) {
 		for (let j=0; j<9; j++) {
 			let cell = pregen[9 * i + j];
-			document.getElementById(String(i) + String(j)).value = (cell === "0" ? "" : cell);
+			document.getElementById(String(i) + String(j)).value = (cell === "0") ? "" : cell;
 		}
 	}
 }
