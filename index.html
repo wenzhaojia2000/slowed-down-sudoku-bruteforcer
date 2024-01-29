@@ -23,21 +23,21 @@
 			<div id="success"></div>
 			<div id="errors"></div>
 			<div class="option">
-				<span>Iteration</span>
+				<label for="iter">Iteration</label>
 				<div>
 					<button class="small" id="next" disabled>+1</button>
 					<button class="small" id="skip" disabled>+&infin;</button>
 				</div>
 			</div>
-			<input class="stat" id="iter" type="number" value="0" disabled />
+			<input class="stat" id="iter" name="iter" type="number" value="0" disabled />
 			<div class="option">
-				<span>Speed (per second)</span>
+				<label for="speed">Speed (per second)</label>
 				<div>
 					<button class="small" id="speed-down">&div;2</button>
 					<button class="small" id="speed-up">&times;2</button>
 				</div>
 			</div>
-			<input class="stat" id="speed" type="number" min="1" step="any" value="125" />
+			<input class="stat" id="speed" name="speed" type="number" min="1" step="any" value="125" />
 		</div>
 	</div>
 </body>

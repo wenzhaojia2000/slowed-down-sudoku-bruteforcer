@@ -43,14 +43,14 @@ tr:nth-child(3n) {
 	border-bottom: 3px solid black;
 }
 
-span {
+label {
 	padding: 0 4px;
 }
 
 select {
 	width: 150px;
 	font-size: 100%;
-	margin: 0 4px;
+	margin: 4px;
 }
 
 input.sudoku, input.fixed, input.unfilled, input.complete {
@@ -90,6 +90,12 @@ button.large {
 	font-size: 100%;
 	margin: 4px;
 	font-weight: bold;
+}
+
+button.medium {
+	width: 110px;
+	font-size: 100%;
+	margin: 4px;
 }
 
 button.small {
