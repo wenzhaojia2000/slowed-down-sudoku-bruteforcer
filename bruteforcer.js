@@ -27,6 +27,7 @@ class Bruteforcer {
 	/**
 	 * whether the bruteforcer is working on ("pending"), completed, ("success") or failed at solving the
 	 * sudoku ("failure")
+	 * @type {string}
 	 */
 	status = "pending";
 
