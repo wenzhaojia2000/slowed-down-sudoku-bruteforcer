@@ -28,6 +28,12 @@ const sudoku = {
 	timer: null,
 
 	/**
+	 * a string representing the sudoku from top-down left to right, with 0 meaning blank
+	 * @type {string}
+	 */
+	code_decimal: "",
+
+	/**
 	 * an array of pregenerated sudokus. see randomiseSudoku() for more details. randomly generating sudoku 
 	 * puzzles is not currently in the scope of this project.
 	 * 
@@ -223,21 +229,34 @@ const sudoku = {
  * function to call when website is loaded.
  */
 function setUp() {
-	const table = document.getElementById("table");
 	// remove enable javascript message
+	const table = document.getElementById("table");
 	table.innerHTML = "";
+	// fetch a sudoku code from the url, if any
+	const params = new URLSearchParams(window.location.search);
+	let code = params.get("code");
+	if (!code) {
+		code = "";
+	}
+	try {
+		sudoku.code_decimal = b64.from(code).padStart(81, "0");
+	} catch(e) {
+		console.error(e);
+	}
 	// add 9x9 grid
 	for (let i=0; i<9; i++) {
 		const row = document.createElement("tr");
 		for (let j=0; j<9; j++) {
 			const cell = document.createElement("td");
 			const input = document.createElement("input");
+			const value = sudoku.code_decimal[9 * i + j];
 			input.type = "text";
 			input.className = "sudoku";
 			input.pattern = "[0-9]*";
 			input.inputmode = "numeric";
 			input.maxLength = 1;
 			input.id = String(i) + String(j);
+			input.value = (value === "0") ? "" : value;
 			input.addEventListener("keydown", validateKeyDown);
 			input.addEventListener("input", moveNextCell);
 			cell.appendChild(input);
@@ -245,6 +264,7 @@ function setUp() {
 		}
 		table.appendChild(row);
 	}
+	// add event listeners
 	document.getElementById("left-button").addEventListener("click", leftButton);
 	document.getElementById("right-button").addEventListener("click", rightButton);
 	document.getElementById("next").addEventListener("click", nextStep);
