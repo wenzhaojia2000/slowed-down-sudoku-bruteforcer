@@ -35,10 +35,10 @@ const b64 = {
 	 */
 	from(b64) {
 		let num = 0n;
-		for (let i=0; i<b64.length; i++) {
-			const v = this.dict[b64[i]];
+		for (const i of b64) {
+			const v = this.dict[i];
 			if (v === undefined) {
-				throw new Error(`Invalid char ${b64[i]} in string`)
+				throw new Error(`Invalid char ${i} in string`)
 			}
 			num = num * 64n + BigInt(parseInt(v, 8));
 		}

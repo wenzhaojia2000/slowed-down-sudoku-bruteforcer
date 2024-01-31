@@ -80,8 +80,8 @@ const sudoku = {
 		error_div.innerHTML = "";
 		const errors = this.bruteforcer.check();
 		if (errors.length !== 0) {
-			for (let i=0; i<errors.length; i++) {
-				error_div.innerHTML += errors[i] + "<br/>";
+			for (const error of errors) {
+				error_div.innerHTML += error + "<br/>";
 			}
 			this.bruteforcer = null;
 			return;
@@ -286,7 +286,7 @@ function setUp() {
  * @param {KeyboardEvent} event - KeyboardEvent
  */
 function validateKeyDown(event) {
-	const selected = event.target.id;
+	const [i, j] = event.target.id;
 	if (/[1-9]/.test(event.key)) {
 		// type normally
 		return;
@@ -303,21 +303,21 @@ function validateKeyDown(event) {
 			event.preventDefault();
 			break;
 		case "ArrowUp":
-			if (selected[0] !== "0") {
-				document.getElementById(String(Number(selected[0]) - 1) + selected[1]).select();
+			if (i !== "0") {
+				document.getElementById(String(Number(i) - 1) + j).select();
 			}
 			event.preventDefault();
 			break;
 		case "Enter":
 		case "ArrowDown":
-			if (selected[0] !== "8") {
-				document.getElementById(String(Number(selected[0]) + 1) + selected[1]).select();
+			if (i !== "8") {
+				document.getElementById(String(Number(i) + 1) + j).select();
 			}
 			event.preventDefault();
 			break;
 		case "ArrowLeft":
-			if (selected[1] !== "0") {
-				document.getElementById(selected[0] + String(Number(selected[1]) - 1)).select();
+			if (j !== "0") {
+				document.getElementById(i + String(Number(j) - 1)).select();
 			}
 			event.preventDefault();
 			break;
@@ -335,14 +335,14 @@ function validateKeyDown(event) {
  */
 function moveNextCell(event) {
 	const regex = /ArrowRight|\d/;
-	const selected = event.target.id;
+	const [i, j] = event.target.id;
 	if (regex.test(event.data) || regex.test(event.key)) {
-		if (selected[1] === "8") {
-			if (selected[0] !== "8") {
-				document.getElementById(String(Number(selected[0]) + 1) + "0").select();
+		if (j === "8") {
+			if (i !== "8") {
+				document.getElementById(String(Number(i) + 1) + "0").select();
 			}
 		} else {
-			document.getElementById(selected[0] + String(Number(selected[1]) + 1)).select();
+			document.getElementById(i + String(Number(j) + 1)).select();
 		}
 	}
 }
