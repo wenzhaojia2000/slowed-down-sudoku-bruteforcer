@@ -244,7 +244,7 @@ function setUp() {
 	}
 	try {
 		sudoku.code_decimal = [...b64.from(code).padStart(81, "0")];
-	} catch(e) {
+	} catch (e) {
 		console.error(e);
 	}
 	// add 9x9 grid
@@ -277,6 +277,7 @@ function setUp() {
 	document.getElementById("speed-down").addEventListener("click", speedDown);
 	document.getElementById("speed-up").addEventListener("click", speedUp);
 	document.getElementById("speed").addEventListener("change", changeSpeed);
+	document.getElementById("copy").addEventListener("click", copyLink);
 	// if the user came from a link to a pregenerated sudoku, erase it from sudoku.pregen
 	const pregen = sudoku.pregen.filter((v) => {return (v !== code)});
 	// add href to random pregenerated sudoku
@@ -451,6 +452,19 @@ function nextStep() {
  */
 function skipToEnd() {
 	sudoku.next(1e9);
+}
+
+/**
+ * @function
+ */
+async function copyLink() {
+	try {
+		await navigator.clipboard.writeText(document.getElementById("save").href);
+		document.getElementById("copy").innerText = "Copied!";
+		setTimeout(() => {document.getElementById("copy").innerText = "Copy";}, 1000);
+	} catch (e) {
+		console.error(e);
+	}
 }
 
 window.onload = setUp;
