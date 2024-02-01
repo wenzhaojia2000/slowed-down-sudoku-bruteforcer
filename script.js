@@ -292,7 +292,6 @@ function setUp() {
  * @param {KeyboardEvent} event - KeyboardEvent
  */
 function validateKeyDown(event) {
-	const [i, j] = event.target.id;
 	if (/[1-9]/.test(event.key)) {
 		// type normally
 		return;
@@ -305,27 +304,17 @@ function validateKeyDown(event) {
 			break;
 		case "0":
 		case "ArrowRight":
-			moveNextCell(event);
-			event.preventDefault();
+			moveNextCell(event, "r");
+			break;
+		case "ArrowLeft":
+			moveNextCell(event, "l");
 			break;
 		case "ArrowUp":
-			if (i !== "0") {
-				document.getElementById(String(Number(i) - 1) + j).select();
-			}
-			event.preventDefault();
+			moveNextCell(event, "u");
 			break;
 		case "Enter":
 		case "ArrowDown":
-			if (i !== "8") {
-				document.getElementById(String(Number(i) + 1) + j).select();
-			}
-			event.preventDefault();
-			break;
-		case "ArrowLeft":
-			if (j !== "0") {
-				document.getElementById(i + String(Number(j) - 1)).select();
-			}
-			event.preventDefault();
+			moveNextCell(event, "d");
 			break;
 		default:
 			// prevent this key from being input
@@ -335,22 +324,24 @@ function validateKeyDown(event) {
 
 /**
  * @function
- * function called when user changes the value in an sudoku cell. If user inputs a number, move to
- * next cell in the grid. 0 can be input to skip a cell (see validateKeyDown)
+ * function called when user changes the value in an sudoku cell. if user inputs a number, move to
+ * next cell in the grid. use direction to define the direction of next cell
  * @param {Event} event - event
+ * @param {string} direction - defines which cell is the next (either "r" right, "l" left, "u" up, 
+ * "d" down from current cell)
  */
-function moveNextCell(event) {
-	const regex = /ArrowRight|\d/;
-	const [i, j] = event.target.id;
+function moveNextCell(event, direction="r") {
+	const regex = /^Arrow|Enter|^\d$/;
+	// interpret id as base 9 so the selection can wrap around (eg. 08 + 1 = 10)
+	const selected = parseInt(event.target.id, 9);
+	const diff = {"r": 1, "l": -1, "d": 9, "u": -9};
 	if (regex.test(event.data) || regex.test(event.key)) {
-		if (j === "8") {
-			if (i !== "8") {
-				document.getElementById(String(Number(i) + 1) + "0").select();
-			}
-		} else {
-			document.getElementById(i + String(Number(j) + 1)).select();
+		const next = selected + diff[direction];
+		if (0 <= next && next < 81) {
+			document.getElementById(next.toString(9).padStart(2, "0")).select();
 		}
 	}
+	event.preventDefault();
 }
 
 /**
