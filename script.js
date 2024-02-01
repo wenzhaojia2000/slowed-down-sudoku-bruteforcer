@@ -28,10 +28,11 @@ const sudoku = {
 	timer: null,
 
 	/**
-	 * a string representing the sudoku from top-down left to right, with 0 meaning blank
-	 * @type {string}
+	 * an flattened array of chars representing the sudoku from top-down left to right, with "0"
+	 * meaning blank. used in generating "link to this sudoku"
+	 * @type {Array}
 	 */
-	code_decimal: "",
+	code_decimal: Array(81).fill("0"),
 
 	/**
 	 * an array of encoded (see b64.js) pregenerated sudokus, which can be used by the user to fill in a
@@ -170,6 +171,9 @@ const sudoku = {
 	clear() {
 		document.getElementById("errors").innerHTML = "";
 		document.getElementById("success").innerHTML = "";
+		// reset "link to this sudoku"
+		document.getElementById("save").href = window.location.origin + window.location.pathname;
+		sudoku.code_decimal.fill("0");
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				document.getElementById(String(i) + String(j)).value = "";
@@ -239,7 +243,7 @@ function setUp() {
 		code = "";
 	}
 	try {
-		sudoku.code_decimal = b64.from(code).padStart(81, "0");
+		sudoku.code_decimal = [...b64.from(code).padStart(81, "0")];
 	} catch(e) {
 		console.error(e);
 	}
@@ -259,6 +263,7 @@ function setUp() {
 			input.value = (value === "0") ? "" : value;
 			input.addEventListener("keydown", validateKeyDown);
 			input.addEventListener("input", moveNextCell);
+			input.addEventListener("change", updateCode);
 			cell.appendChild(input);
 			row.appendChild(cell);
 		}
@@ -345,6 +350,19 @@ function moveNextCell(event) {
 			document.getElementById(i + String(Number(j) + 1)).select();
 		}
 	}
+}
+
+/**
+ * @function
+ * updates "link to this sudoku" whenever user changes a cell in the sudoku.
+ * @param {Event} event - event
+ */
+function updateCode(event) {
+	const [i, j] = event.target.id;
+	const value = event.target.value;
+	sudoku.code_decimal[9 * Number(i) + Number(j)] = (value === "") ? "0" : value;
+	const search = "?code=" + b64.to(sudoku.code_decimal.join(""));
+	document.getElementById("save").href = window.location.origin + window.location.pathname + search;
 }
 
 /**
