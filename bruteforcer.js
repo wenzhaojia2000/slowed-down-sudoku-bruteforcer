@@ -34,7 +34,9 @@ class Bruteforcer {
 	/**
 	 * @constructor
 	 * @param {Array} matrix - the 9x9 sudoku grid that user fills in. empty values are represented as 0.
-	 * @param {string} fill_in_method - dictates which cells should be filled in first (to be added).
+	 * @param {string} fill_in_method - dictates which cells should be filled in first. can be one of the following:
+	 * "standard" (row first), "column" (columns first), "efficient" (least possibilities first), or "random" (not
+	 * recommended).
 	 * @param {string} sudoku_type - dictates which sudoku variant to use (to be added).
 	 */
 	constructor(matrix, fill_in_method="standard", sudoku_type="standard") {
@@ -42,15 +44,61 @@ class Bruteforcer {
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
 
-		// fill in unfilled_cells array
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
+				this.fillIn(i, j);
+			}
+		}
+		// if fill in method is efficient, sort by number of possibilities (index 2)
+		if (this.fill_in_method == "efficient") {
+			this.unfilled_cells.sort((a, b) => {return a[2] - b[2];})
+		}
+		// if fill in method is random, shuffle the array using a durstenfeld shuffle
+		// https://stackoverflow.com/a/12646864/9918937)
+		// note that filling in by random order is AWFUL and will almost always take much longer than
+		// any other method
+		if (this.fill_in_method == "random") {
+			for (let i = this.unfilled_cells.length-1; i>0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[this.unfilled_cells[i], this.unfilled_cells[j]] = [this.unfilled_cells[j], this.unfilled_cells[i]];
+			}
+		}
+	}
+
+	/**
+	 * @method
+	 * helps build the unfilled_cells array, depending on the fill in method of the bruteforcer. only used in
+	 * the constructor.
+	 * @param {number} i - row index (0-8)
+	 * @param {number} j - column index (0-8)
+	 */
+	fillIn(i, j) {
+		switch (this.fill_in_method) {
+			case "efficient":
+				if (this.matrix[i][j] === 0) {
+					let n = 0;
+					for (let c=1; c<10; c++) {
+						this.matrix[i][j] = c;
+						if (this.checkCell(i, j)) {
+							n++;
+						}
+						this.matrix[i][j] = 0;
+					}
+					this.unfilled_cells.push([i, j, n]);
+					// need to sort by n afterwards (see constructor)
+				}
+				break;
+			case "column":
+				if (this.matrix[j][i] === 0) {
+					this.unfilled_cells.push([j, i]);
+				}
+				break;
+			case "standard":
+			default:
 				if (this.matrix[i][j] === 0) {
 					this.unfilled_cells.push([i, j]);
 				}
-			}
 		}
-
 	}
 
 	/**

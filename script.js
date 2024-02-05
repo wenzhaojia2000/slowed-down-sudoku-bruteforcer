@@ -74,8 +74,9 @@ const sudoku = {
 			}
 			matrix[i] = row;
 		}
-		// initiate SudokuGrid
-		this.bruteforcer = new Bruteforcer(matrix);
+		// initiate SudokuGrid with user parameters
+		const fill_in_method = document.getElementById("method").value;
+		this.bruteforcer = new Bruteforcer(matrix, fill_in_method);
 
 		// check for errors. break if there are any errors
 		error_div.innerHTML = "";

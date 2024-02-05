@@ -40,6 +40,22 @@
 			</div>
 			<input class="stat" id="speed" name="speed" type="number" min="1" step="any" value="125" />
 			<br/>
+			<!-- <div class="option">
+				<label for="type">Type</label>
+				<select id="type" name="type">
+					<option value="standard">Normal sudoku</option>
+					<option value="x">Sudoku X</option>
+					<option value="window">Window sudoku</option>
+				</select>
+			</div> -->
+			<div class="option">
+				<label for="method">Fill-in</label>
+				<select id="method" name="method">
+					<option value="standard">Rows first</option>
+					<option value="column">Columns first</option>
+					<option value="efficient">Least possibilities first</option>
+				</select>
+			</div>
 			<div class="option">
 				<label for="copy"><a id="save" href="">Link to this sudoku</a></label>
 				<div>
