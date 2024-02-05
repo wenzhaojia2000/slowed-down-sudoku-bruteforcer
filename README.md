@@ -6,9 +6,15 @@ This is a visualisation project that shows every step of a sudoku backtracking a
 
 To use, simply open `index.html` in your browser.
 
+## Features
+
+- Input your own sudoku or use a random pre-generated sudoku.
+- Change the speed of iteration, pause, or skip to the end to see the solution.
+- Change which sudoku cells the bruteforcer inputs first: rows first, columns first, or cells with the least possibilities first.
+- Get a link to the sudoku you have input to save or share.
+
 ## To-do
 
-- Add an import/export tool that works by saving the sudoku in the URL and using `URLSearchParams` to retrieve them.
+- Add tests for `bruteforcer.js` and `b64.js`.
 - Add ability to solve "X-type" and "Window-type" sudokus.
-- Add ability to customise fill-in order. Random order and "efficient" order (cells with fewer possibilities are filled in first) are planned.
 - Prevent freezing when pressing the "skip to end" (+∞) button for sudokus that take a long time to solve with the algorithm using asynchronous programming.
