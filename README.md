@@ -13,8 +13,15 @@ To use, simply open `index.html` in your browser.
 - Change which sudoku cells the bruteforcer inputs first: rows first, columns first, or cells with the least possibilities first.
 - Get a link to the sudoku you have input to save or share.
 
+## Testing
+
+Tests are performed inside the browser using [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/) as an assertion library.
+
+Tests are stored in the `tests/` directory.
+
+To test, simply open `tests/index.html` in your browser.
+
 ## To-do
 
-- Add tests for `bruteforcer.js` and `b64.js`.
 - Add ability to solve "X-type" and "Window-type" sudokus.
 - Prevent freezing when pressing the "skip to end" (+∞) button for sudokus that take a long time to solve with the algorithm using asynchronous programming.
