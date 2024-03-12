@@ -15,9 +15,7 @@ To use, simply open `index.html` in your browser.
 
 ## Testing
 
-Tests are performed inside the browser using [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/) as an assertion library.
-
-Tests are stored in the `tests/` directory.
+Tests are stored in the `tests/` directory and are performed inside the browser using [Mocha](https://mochajs.org/) as the test framework with [Chai](https://www.chaijs.com/) as an assertion library.
 
 To test, simply open `tests/index.html` in your browser.
 
