@@ -40,7 +40,8 @@ class Bruteforcer {
 	 * @param {string} sudoku_type - dictates which sudoku variant to use (to be added).
 	 */
 	constructor(matrix, fill_in_method="standard", sudoku_type="standard") {
-		this.matrix = matrix;
+		// deep copy so user can still access unmodified matrix
+		this.matrix = structuredClone(matrix);
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
 
