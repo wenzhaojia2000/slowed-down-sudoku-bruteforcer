@@ -1,5 +1,3 @@
-let expect = chai.expect;
-
 describe("b64.js", function () {
 	describe('when "0" (dec) is converted to b64', function () {
 		it('returns "A"', function () {

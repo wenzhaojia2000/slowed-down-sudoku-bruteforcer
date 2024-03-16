@@ -15,10 +15,14 @@
 	<script class="mocha-init">
 		mocha.setup('bdd');
 		mocha.checkLeaks();
+		let expect = chai.expect;
 	</script>
 
 	<script src="../b64.js"></script>
 	<script src="test.b64.js"></script>
+
+	<script src="../bruteforcer.js"></script>
+	<script src="test.bruteforcer.js"></script>
 
 	<script class="mocha-exec">
 		mocha.run();
