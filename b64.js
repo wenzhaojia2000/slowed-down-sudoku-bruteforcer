@@ -29,16 +29,16 @@ const b64 = {
 	/**
 	 * @method
 	 * decodes a b64 encoded string to decimal string.
-	 * @param {string} b64 - b64 encoded string.
-	 * @throws {Error} - character not given in this.dict present in string.
+	 * @param {string} encoded - b64 encoded string.
+	 * @throws {RangeError} - character not given in this.dict present in string.
 	 * @returns {string} - string of the decimal number.
 	 */
-	from(b64) {
+	from(encoded) {
 		let num = 0n;
-		for (const i of b64) {
+		for (const i of encoded) {
 			const v = this.dict[i];
 			if (v === undefined) {
-				throw new Error(`Invalid char ${i} in string`)
+				throw new RangeError(`Invalid char ${i} in string`)
 			}
 			num = num * 64n + BigInt(parseInt(v, 8));
 		}
@@ -53,14 +53,14 @@ const b64 = {
 	 */
 	to(num) {
 		let oct = BigInt(num).toString(8);
-		let b64 = "";
+		let encoded = "";
 		// pad to even length
 		if (oct.length % 2 === 1) {
 			oct = "0" + oct;
 		}
 		for (let i=0; i<oct.length/2; i++) {
-			b64 += this.dict[oct[2*i] + oct[2*i+1]];
+			encoded += this.dict[oct[2*i] + oct[2*i+1]];
 		}
-		return b64;
+		return encoded;
 	}
 };
