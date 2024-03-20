@@ -97,11 +97,13 @@ const sudoku = {
 	 * initiates a bruteforcer and starts the bruteforcing algorithm.
 	 */
 	start() {
-		const matrix = new Array(9);
-		const error_div = document.getElementById("errors");
 		this.speed = Number(document.getElementById("speed").value);
+		// clear any shown errors
+		const error_div = document.getElementById("errors");
+		error_div.innerHTML = "";
 		
 		// obtain matrix from document
+		const matrix = new Array(9);
 		for (let i=0; i<9; i++) {
 			const row = new Array(9);
 			for (let j=0; j<9; j++) {
@@ -111,14 +113,16 @@ const sudoku = {
 		}
 		// initiate SudokuGrid with user parameters
 		const fill_in_method = document.getElementById("method").value;
-		this.bruteforcer = new Bruteforcer(matrix, fill_in_method);
-
-		// check for errors. break if there are any errors
-		error_div.innerHTML = "";
-		const errors = this.bruteforcer.check();
-		if (errors.length !== 0) {
-			for (const error of errors) {
-				error_div.innerHTML += error + "<br/>";
+		try {
+			this.bruteforcer = new Bruteforcer(matrix, fill_in_method);
+		} catch(err) {
+			// invalid sudoku --- stop and show to user
+			if (err instanceof InvalidSudokuError) {
+				for (const error of err.details) {
+					error_div.innerHTML += error + "<br/>";
+				}
+			} else {
+				error_div.innerHTML = message;
 			}
 			this.bruteforcer = null;
 			return;

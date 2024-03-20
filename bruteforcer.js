@@ -2,6 +2,30 @@
 
 /**
  * @class
+ * error class to throw when an invalid matrix is given to the bruteforcer (e.g. invalid characters, incorrect size,
+ * invalid placements)
+ */
+class InvalidSudokuError extends RangeError {
+
+	/**
+	 * @constructor
+	 * @param {string} message - error message
+	 * @param {Array} details - optional: list of strings detailing invalid placements in the matrix
+	 */
+	constructor(message, details) {
+		if (!message) {
+			message = "Invalid sudoku matrix given";
+		}
+		if (!details instanceof Array) {
+			details = Array(details);
+		}
+		super(message);
+		this.details = details;
+	}
+}
+
+/**
+ * @class
  * class for storing the sudoku grid and solving it.
  */
 class Bruteforcer {
@@ -44,10 +68,11 @@ class Bruteforcer {
 		this.matrix = structuredClone(matrix);
 		this.fill_in_method = fill_in_method;
 		this.sudoku_type = sudoku_type;
+		this.#check();
 
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
-				this.fillIn(i, j);
+				this.#fillIn(i, j);
 			}
 		}
 		// if fill in method is efficient, sort by number of possibilities (index 2)
@@ -68,48 +93,13 @@ class Bruteforcer {
 
 	/**
 	 * @method
-	 * helps build the unfilled_cells array, depending on the fill in method of the bruteforcer. only used in
-	 * the constructor.
-	 * @param {number} i - row index (0-8)
-	 * @param {number} j - column index (0-8)
-	 */
-	fillIn(i, j) {
-		switch (this.fill_in_method) {
-			case "efficient":
-				if (this.matrix[i][j] === 0) {
-					let n = 0;
-					for (let c=1; c<10; c++) {
-						this.matrix[i][j] = c;
-						if (this.checkCell(i, j)) {
-							n++;
-						}
-						this.matrix[i][j] = 0;
-					}
-					this.unfilled_cells.push([i, j, n]);
-					// need to sort by n afterwards (see constructor)
-				}
-				break;
-			case "column":
-				if (this.matrix[j][i] === 0) {
-					this.unfilled_cells.push([j, i]);
-				}
-				break;
-			case "standard":
-			default:
-				if (this.matrix[i][j] === 0) {
-					this.unfilled_cells.push([i, j]);
-				}
-		}
-	}
-
-	/**
-	 * @method
 	 * checks whether the entire matrix is valid (does not break any rules from the beginning -- does not check that
-	 * the sudoku has a solution). ideally called before bruteforcing.
-	 * @returns {Array} - a list of strings containing error messages for invalid sudokus. For valid sudokus,
-	 * returns an empty array.
+	 * the sudoku has a solution). only used in used in constructor.
+	 * @throws {RangeError} - sudoku is invalid. the "details" property contains a list of strings with reasons on
+	 * why the sudoku is invalid.
+	 * @returns {void} - sudoku is valid.
 	 */
-	check() {
+	#check() {
 		const errors = new Array();
 		const containsDuplicates = (arr) => {
 			return new Set(arr).size !== arr.length;
@@ -157,7 +147,45 @@ class Bruteforcer {
 			}
 		});
 
-		return errors;
+		if (errors.length !== 0) {
+			throw new InvalidSudokuError("Invalid matrix given", errors);
+		}
+	}
+
+	/**
+	 * @method
+	 * helps build the unfilled_cells array, depending on the fill in method of the bruteforcer. only used in
+	 * the constructor.
+	 * @param {number} i - row index (0-8)
+	 * @param {number} j - column index (0-8)
+	 */
+	#fillIn(i, j) {
+		switch (this.fill_in_method) {
+			case "efficient":
+				if (this.matrix[i][j] === 0) {
+					let n = 0;
+					for (let c=1; c<10; c++) {
+						this.matrix[i][j] = c;
+						if (this.checkCell(i, j)) {
+							n++;
+						}
+						this.matrix[i][j] = 0;
+					}
+					this.unfilled_cells.push([i, j, n]);
+					// need to sort by n afterwards (see constructor)
+				}
+				break;
+			case "column":
+				if (this.matrix[j][i] === 0) {
+					this.unfilled_cells.push([j, i]);
+				}
+				break;
+			case "standard":
+			default:
+				if (this.matrix[i][j] === 0) {
+					this.unfilled_cells.push([i, j]);
+				}
+		}
 	}
 
 	/**
