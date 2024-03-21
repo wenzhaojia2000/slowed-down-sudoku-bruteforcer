@@ -99,8 +99,8 @@ const sudoku = {
 	start() {
 		this.speed = Number(document.getElementById("speed").value);
 		// clear any shown errors
-		const error_div = document.getElementById("errors");
-		error_div.innerHTML = "";
+		const error_list = document.getElementById("errors");
+		error_list.innerHTML = "";
 		
 		// obtain matrix from document
 		const matrix = new Array(9);
@@ -115,14 +115,16 @@ const sudoku = {
 		const fill_in_method = document.getElementById("method").value;
 		try {
 			this.bruteforcer = new Bruteforcer(matrix, fill_in_method);
-		} catch(err) {
+		} catch (e) {
 			// invalid sudoku --- stop and show to user
-			if (err instanceof InvalidSudokuError) {
-				for (const error of err.details) {
-					error_div.innerHTML += error + "<br/>";
+			if (e instanceof InvalidSudokuError) {
+				for (const error of e.details) {
+					const item = document.createElement("li");
+					item.innerText = error;
+					error_list.appendChild(item);
 				}
 			} else {
-				error_div.innerHTML = message;
+				error_list.innerHTML = message;
 			}
 			this.bruteforcer = null;
 			return;

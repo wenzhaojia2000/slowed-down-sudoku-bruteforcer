@@ -3,6 +3,7 @@ body {
 	font-size: 20px;
 	max-width: 940px;
 	margin: auto;
+	padding-bottom: 25px;
 }
 
 a {
@@ -41,6 +42,11 @@ tr:first-child {
 
 tr:nth-child(3n) {
 	border-bottom: 3px solid black;
+}
+
+hr {
+	visibility: hidden;
+	height: 10px;
 }
 
 label {
@@ -133,19 +139,19 @@ div.buttons {
 	justify-content: space-between;
 }
 
-div#success {
+span#success {
 	width: 100%;
 	text-align: center;
 	color: limegreen;
 }
 
-div#errors {
+ul#errors {
 	width: 100%;
+	margin: 0;
 	text-align: center;
 	font-style: italic;
 	color: crimson;
 }
-
 
 @media (max-width: 950px) {
 	div.outer {
