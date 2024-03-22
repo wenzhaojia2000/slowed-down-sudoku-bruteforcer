@@ -124,7 +124,7 @@ const sudoku = {
 					error_list.appendChild(item);
 				}
 			} else {
-				error_list.innerHTML = message;
+				error_list.innerHTML = e.message;
 			}
 			this.bruteforcer = null;
 			return;

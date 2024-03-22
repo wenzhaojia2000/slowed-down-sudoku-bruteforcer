@@ -167,6 +167,10 @@ ul#errors {
 	div.info {
 		min-width: 550px;
 	}
+	
+	ul#errors {
+		list-style-type: none;
+	}
 }
 
 @media (max-width: 575px) {
