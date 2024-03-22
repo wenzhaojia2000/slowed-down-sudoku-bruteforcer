@@ -13,12 +13,6 @@ class InvalidSudokuError extends RangeError {
 	 * @param {Array} details - optional: list of strings detailing invalid placements in the matrix
 	 */
 	constructor(message, details) {
-		if (!message) {
-			message = "Invalid sudoku matrix given";
-		}
-		if (!details instanceof Array) {
-			details = Array(details);
-		}
 		super(message);
 		this.details = details;
 	}
@@ -93,13 +87,28 @@ class Bruteforcer {
 
 	/**
 	 * @method
+	 * @private
 	 * checks whether the entire matrix is valid (does not break any rules from the beginning -- does not check that
 	 * the sudoku has a solution). only used in used in constructor.
-	 * @throws {RangeError} - sudoku is invalid. the "details" property contains a list of strings with reasons on
+	 * @throws {InvalidSudokuError} - sudoku is invalid. the "details" property contains a list of strings with reasons on
 	 * why the sudoku is invalid.
 	 * @returns {void} - sudoku is valid.
 	 */
 	#check() {
+		// check matrix size and check for invalid characters. if user gave strings instead of numbers, convert to numbers
+		for (let i=0; i<9; i++) {
+			for (let j=0; j<9; j++) {
+				const cell = parseInt(this.matrix[i][j]);
+				if (isNaN(cell)) {
+					throw new InvalidSudokuError("Either size of sudoku matrix is incorrect or one or more cells contain invalid characters");
+				}
+				if (cell < 0 || cell > 9) {
+					throw new InvalidSudokuError("Please ensure matrix cells only contain the numbers 0 to 9, inclusive");
+				}
+				this.matrix[i][j] = cell;
+			}
+		}
+
 		const errors = new Array();
 		const containsDuplicates = (arr) => {
 			return new Set(arr).size !== arr.length;
@@ -148,12 +157,13 @@ class Bruteforcer {
 		});
 
 		if (errors.length !== 0) {
-			throw new InvalidSudokuError("Invalid matrix given", errors);
+			throw new InvalidSudokuError("Placement of numbers in sudoku matrix is invalid", errors);
 		}
 	}
 
 	/**
 	 * @method
+	 * @private
 	 * helps build the unfilled_cells array, depending on the fill in method of the bruteforcer. only used in
 	 * the constructor.
 	 * @param {number} i - row index (0-8)

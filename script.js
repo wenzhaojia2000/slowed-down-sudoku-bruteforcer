@@ -117,7 +117,7 @@ const sudoku = {
 			this.bruteforcer = new Bruteforcer(matrix, fill_in_method);
 		} catch (e) {
 			// invalid sudoku --- stop and show to user
-			if (e instanceof InvalidSudokuError) {
+			if (e instanceof InvalidSudokuError && e.details) {
 				for (const error of e.details) {
 					const item = document.createElement("li");
 					item.innerText = error;
