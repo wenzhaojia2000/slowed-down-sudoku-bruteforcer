@@ -5,7 +5,7 @@ const b64 = {
 	/**
 	 * provides the mappings from octal to b64 and vice-versa. "-" and "_" are the 63rd and 64th
 	 * characters, respectively.
-	 * @type {object}
+	 * @type {Object}
 	 */
 	dict: {
 		"00": "A", "01": "B", "02": "C", "03": "D", "04": "E", "05": "F", "06": "G", "07": "H",
@@ -30,15 +30,15 @@ const b64 = {
 	 * @method
 	 * decodes a b64 encoded string to decimal string.
 	 * @param {string} encoded - b64 encoded string.
-	 * @throws {RangeError} - character not given in this.dict present in string.
-	 * @returns {string} - string of the decimal number.
+	 * @throws {SyntaxError} character not given in this.dict present in string.
+	 * @returns {string} string of the decimal number.
 	 */
 	from(encoded) {
 		let num = 0n;
 		for (const i of encoded) {
 			const v = this.dict[i];
 			if (v === undefined) {
-				throw new RangeError(`Invalid char ${i} in string`)
+				throw new SyntaxError(`Invalid char "${i}" in encoded string`)
 			}
 			num = num * 64n + BigInt(parseInt(v, 8));
 		}
@@ -49,7 +49,7 @@ const b64 = {
 	 * @method
 	 * encodes a decimal string to a b64 string
 	 * @param {string} num - string of the decimal number.
-	 * @returns {string} - b64 encoded string.
+	 * @returns {string} b64 encoded string.
 	 */
 	to(num) {
 		let oct = BigInt(num).toString(8);

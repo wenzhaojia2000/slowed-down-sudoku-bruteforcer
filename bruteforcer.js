@@ -1,7 +1,6 @@
 "use strict";
 
 /**
- * @class
  * error class to throw when an invalid matrix is given to the bruteforcer (e.g. invalid characters, incorrect size,
  * invalid placements)
  */
@@ -10,7 +9,7 @@ class InvalidSudokuError extends RangeError {
 	/**
 	 * @constructor
 	 * @param {string} message - error message
-	 * @param {Array} details - optional: list of strings detailing invalid placements in the matrix
+	 * @param {string[]} details - optional: list of strings detailing invalid placements in the matrix
 	 */
 	constructor(message, details) {
 		super(message);
@@ -19,7 +18,6 @@ class InvalidSudokuError extends RangeError {
 }
 
 /**
- * @class
  * class for storing the sudoku grid and solving it.
  */
 class Bruteforcer {
@@ -32,7 +30,7 @@ class Bruteforcer {
 
 	/**
 	 * contains [i,j] values of every empty cell
-	 * @type {Array}
+	 * @type {number[][]}
 	 */
 	unfilled_cells = new Array();
 
@@ -51,11 +49,11 @@ class Bruteforcer {
 
 	/**
 	 * @constructor
-	 * @param {Array} matrix - the 9x9 sudoku grid that user fills in. empty values are represented as 0.
-	 * @param {string} fill_in_method - dictates which cells should be filled in first. can be one of the following:
+	 * @param {number[][]} matrix - the 9x9 sudoku grid that user fills in. empty values are represented as 0.
+	 * @param {string} [fill_in_method] - dictates which cells should be filled in first. can be one of the following:
 	 * "standard" (row first), "column" (columns first), "efficient" (least possibilities first), or "random" (not
 	 * recommended).
-	 * @param {string} sudoku_type - dictates which sudoku variant to use (to be added).
+	 * @param {string} [sudoku_type] - dictates which sudoku variant to use (to be added).
 	 */
 	constructor(matrix, fill_in_method="standard", sudoku_type="standard") {
 		// deep copy so user can still access unmodified matrix
@@ -90,9 +88,9 @@ class Bruteforcer {
 	 * @private
 	 * checks whether the entire matrix is valid (does not break any rules from the beginning -- does not check that
 	 * the sudoku has a solution). only used in used in constructor.
-	 * @throws {InvalidSudokuError} - sudoku is invalid. the "details" property contains a list of strings with reasons on
+	 * @throws {InvalidSudokuError} sudoku is invalid. the "details" property contains a list of strings with reasons on
 	 * why the sudoku is invalid.
-	 * @returns {void} - sudoku is valid.
+	 * @returns {void} sudoku is valid.
 	 */
 	#check() {
 		// check matrix size and check for invalid characters. if user gave strings instead of numbers, convert to numbers
@@ -233,8 +231,8 @@ class Bruteforcer {
 	/**
 	 * @method
 	 * completes one iteration of the bruteforce algorithm.
-	 * @returns {Array} - array of [i, j, v] where i, j are the cell coordinates and v is the new value.
-	 * @returns {void} - the sudoku has already been successfully solved or failed to solve.
+	 * @returns {number[] | undefined} array of [i, j, v] where i, j are the cell coordinates and v is the new
+	 * value or void if the sudoku has already been successfully solved or failed to solve.
 	 */
 	nextStep() {
 		if (this.index < 0) {
