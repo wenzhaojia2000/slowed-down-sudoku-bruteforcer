@@ -39,10 +39,51 @@ describe("b64.js", function () {
 		});
 	});
 
+	describe('when string is decoded then encoded', function () {
+		it('returns same value', function () {
+			const value = "LoremIpsumDolorSitAmetConsecteturAdipiscingElit";
+			const result = b64.to(b64.from(value));
+			expect(result).to.equal(value);
+		});
+	});
+
+	describe('when string is encoded then decoded', function () {
+		it('returns same value', function () {
+			const value = "412257182553916808157881415940416";
+			const result = b64.from(b64.to(value));
+			expect(result).to.equal(value);
+		});
+	});
+
 	describe('when number instead of string is converted to b64', function () {
 		it('interprets correctly (up to MAX_SAFE_INTEGER)', function () {
 			const result = b64.to(9007199254740990);
 			expect(result).to.equal("f_______-");
 		});
+	});
+
+	describe('when invalid dec is converted to b64', function () {
+		function test_invalid_dec_throws(val, err_type) {
+			return () => {
+				const result = () => b64.to(val);
+				expect(result).to.throw(err_type);
+			}
+		}
+	
+		it('throws an error (invalid characters)', test_invalid_dec_throws("248881AN0", SyntaxError));
+		it('throws an error (input an object)', test_invalid_dec_throws({0: "a", 1: "b"}, TypeError));
+	});
+
+	describe('when invalid b64 is converted to dec', function () {
+		function test_invalid_b64_throws(val, err_type) {
+			return () => {
+				const result = () => b64.from(val);
+				expect(result).to.throw(err_type);
+			}
+		}
+	
+		it('throws an error (invalid characters)', test_invalid_b64_throws("I am a fish!", SyntaxError));
+		it('throws an error (input a number)', test_invalid_b64_throws(145881, TypeError));
+		it('throws an error (input an object)', test_invalid_b64_throws({a: "n", b: "2"}, TypeError));
 	});
 });
