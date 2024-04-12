@@ -32,7 +32,7 @@ class Bruteforcer {
 	 * contains [i,j] values of every empty cell
 	 * @type {number[][]}
 	 */
-	unfilled_cells = new Array();
+	unfilledCells = new Array();
 
 	/**
 	 * details which index in unfilled_cells the algorithm is bruteforcing
@@ -58,8 +58,8 @@ class Bruteforcer {
 	constructor(matrix, fill_in_method="standard", sudoku_type="standard") {
 		// deep copy so user can still access unmodified matrix
 		this.matrix = structuredClone(matrix);
-		this.fill_in_method = fill_in_method;
-		this.sudoku_type = sudoku_type;
+		this.fillInMethod = fill_in_method;
+		this.sudokuType = sudoku_type;
 		this.#check();
 
 		for (let i=0; i<9; i++) {
@@ -68,17 +68,17 @@ class Bruteforcer {
 			}
 		}
 		// if fill in method is efficient, sort by number of possibilities (index 2)
-		if (this.fill_in_method == "efficient") {
-			this.unfilled_cells.sort((a, b) => {return a[2] - b[2];})
+		if (this.fillInMethod == "efficient") {
+			this.unfilledCells.sort((a, b) => {return a[2] - b[2];})
 		}
 		// if fill in method is random, shuffle the array using a durstenfeld shuffle
 		// https://stackoverflow.com/a/12646864/9918937)
 		// note that filling in by random order is AWFUL and will almost always take much longer than
 		// any other method
-		if (this.fill_in_method == "random") {
-			for (let i = this.unfilled_cells.length-1; i>0; i--) {
+		if (this.fillInMethod == "random") {
+			for (let i = this.unfilledCells.length-1; i>0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
-				[this.unfilled_cells[i], this.unfilled_cells[j]] = [this.unfilled_cells[j], this.unfilled_cells[i]];
+				[this.unfilledCells[i], this.unfilledCells[j]] = [this.unfilledCells[j], this.unfilledCells[i]];
 			}
 		}
 	}
@@ -174,7 +174,7 @@ class Bruteforcer {
 	 * @param {number} j - column index (0-8)
 	 */
 	#fillIn(i, j) {
-		switch (this.fill_in_method) {
+		switch (this.fillInMethod) {
 			case "efficient":
 				if (this.matrix[i][j] === 0) {
 					let n = 0;
@@ -185,19 +185,19 @@ class Bruteforcer {
 						}
 						this.matrix[i][j] = 0;
 					}
-					this.unfilled_cells.push([i, j, n]);
+					this.unfilledCells.push([i, j, n]);
 					// need to sort by n afterwards (see constructor)
 				}
 				break;
 			case "column":
 				if (this.matrix[j][i] === 0) {
-					this.unfilled_cells.push([j, i]);
+					this.unfilledCells.push([j, i]);
 				}
 				break;
 			case "standard":
 			default:
 				if (this.matrix[i][j] === 0) {
-					this.unfilled_cells.push([i, j]);
+					this.unfilledCells.push([i, j]);
 				}
 		}
 	}
@@ -244,12 +244,12 @@ class Bruteforcer {
 		if (this.index < 0) {
 			this.status = "failure";
 			return;
-		} else if (this.index == this.unfilled_cells.length) {
+		} else if (this.index == this.unfilledCells.length) {
 			this.status = "success";
 			return;
 		}
 		
-		const [i, j] = this.unfilled_cells[this.index];
+		const [i, j] = this.unfilledCells[this.index];
 		// increment this cell
 		this.matrix[i][j]++;
 		

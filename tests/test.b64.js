@@ -1,28 +1,28 @@
 describe("b64.js", function () {
 	describe('when dec is converted to b64', function () {
-		function test_dec_to_b64(val, expected) {
+		function testDecToB64(val, expected) {
 			return () => {
 				const result = b64.to(val);
 				expect(result).to.equal(expected);
 			}
 		}
 
-		it('translates "0" correctly', test_dec_to_b64("0", "A"));
-		it('translates medium-sized number correctly', test_dec_to_b64("262143", "___"));
-		it('translates large-sized number correctly', test_dec_to_b64("1237628137033103787049565361", "_-9876543210zyx"));
+		it('translates "0" correctly', testDecToB64("0", "A"));
+		it('translates medium-sized number correctly', testDecToB64("262143", "___"));
+		it('translates large-sized number correctly', testDecToB64("1237628137033103787049565361", "_-9876543210zyx"));
 	});
 
 	describe('when b64 is converted to dec', function () {
-		function test_b64_to_dec(val, expected) {
+		function testB64ToDec(val, expected) {
 			return () => {
 				const result = b64.from(val);
 				expect(result).to.equal(expected);
 			}
 		}
 
-		it('translates "A" correctly', test_b64_to_dec("A", "0"));
-		it('translates medium-sized number correctly', test_b64_to_dec("ZZZ", "104025"));
-		it('translates large-sized number correctly', test_b64_to_dec("KQXbiTLPjpWIdls1xyBX4dxC8l--oa4Ih6Saqdwonae7y", "304008007000907005070000600028035076960000000005000004003000000546000000890040050"));
+		it('translates "A" correctly', testB64ToDec("A", "0"));
+		it('translates medium-sized number correctly', testB64ToDec("ZZZ", "104025"));
+		it('translates large-sized number correctly', testB64ToDec("KQXbiTLPjpWIdls1xyBX4dxC8l--oa4Ih6Saqdwonae7y", "304008007000907005070000600028035076960000000005000004003000000546000000890040050"));
 	});
 
 	describe('when string padded with 0s is converted to b64', function () {
@@ -63,27 +63,27 @@ describe("b64.js", function () {
 	});
 
 	describe('when invalid dec is converted to b64', function () {
-		function test_invalid_dec_throws(val, err_type) {
+		function testInvalidDecThrows(val, err_type) {
 			return () => {
 				const result = () => b64.to(val);
 				expect(result).to.throw(err_type);
 			}
 		}
 	
-		it('throws an error (invalid characters)', test_invalid_dec_throws("248881AN0", SyntaxError));
-		it('throws an error (input an object)', test_invalid_dec_throws({0: "a", 1: "b"}, TypeError));
+		it('throws an error (invalid characters)', testInvalidDecThrows("248881AN0", SyntaxError));
+		it('throws an error (input an object)', testInvalidDecThrows({0: "a", 1: "b"}, TypeError));
 	});
 
 	describe('when invalid b64 is converted to dec', function () {
-		function test_invalid_b64_throws(val, err_type) {
+		function testInvalidB64Throws(val, err_type) {
 			return () => {
 				const result = () => b64.from(val);
 				expect(result).to.throw(err_type);
 			}
 		}
 	
-		it('throws an error (invalid characters)', test_invalid_b64_throws("I am a fish!", SyntaxError));
-		it('throws an error (input a number)', test_invalid_b64_throws(145881, TypeError));
-		it('throws an error (input an object)', test_invalid_b64_throws({a: "n", b: "2"}, TypeError));
+		it('throws an error (invalid characters)', testInvalidB64Throws("I am a fish!", SyntaxError));
+		it('throws an error (input a number)', testInvalidB64Throws(145881, TypeError));
+		it('throws an error (input an object)', testInvalidB64Throws({a: "n", b: "2"}, TypeError));
 	});
 });

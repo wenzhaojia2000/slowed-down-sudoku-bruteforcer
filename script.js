@@ -30,7 +30,7 @@ const sudoku = {
 	 * meaning blank. used in generating "link to this sudoku"
 	 * @type {string[]}
 	 */
-	code_decimal: Array(81).fill("0"),
+	codeDecimal: Array(81).fill("0"),
 
 	/**
 	 * an array of encoded (see b64.js) pregenerated sudokus, which can be used by the user to fill in a
@@ -213,7 +213,7 @@ const sudoku = {
 		document.getElementById("success").innerHTML = "";
 		// reset "link to this sudoku"
 		document.getElementById("save").href = window.location.origin + window.location.pathname;
-		sudoku.code_decimal.fill("0");
+		sudoku.codeDecimal.fill("0");
 		for (let i=0; i<9; i++) {
 			for (let j=0; j<9; j++) {
 				document.getElementById(String(i) + String(j)).value = "";
@@ -283,7 +283,7 @@ function setUp() {
 		code = "";
 	}
 	try {
-		sudoku.code_decimal = [...b64.from(code).padStart(81, "0")];
+		sudoku.codeDecimal = [...b64.from(code).padStart(81, "0")];
 	} catch (e) {
 		console.error(e);
 	}
@@ -293,7 +293,7 @@ function setUp() {
 		for (let j=0; j<9; j++) {
 			const cell = document.createElement("td");
 			const input = document.createElement("input");
-			const value = sudoku.code_decimal[9 * i + j];
+			const value = sudoku.codeDecimal[9 * i + j];
 			input.type = "text";
 			input.className = "sudoku";
 			input.pattern = "[0-9]*";
@@ -392,8 +392,8 @@ function moveNextCell(event, direction="r") {
 function updateCode(event) {
 	const [i, j] = event.target.id;
 	const value = event.target.value;
-	sudoku.code_decimal[9 * Number(i) + Number(j)] = (value === "") ? "0" : value;
-	const search = "?code=" + b64.to(sudoku.code_decimal.join(""));
+	sudoku.codeDecimal[9 * Number(i) + Number(j)] = (value === "") ? "0" : value;
+	const search = "?code=" + b64.to(sudoku.codeDecimal.join(""));
 	document.getElementById("save").href = window.location.origin + window.location.pathname + search;
 }
 
