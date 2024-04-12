@@ -34,11 +34,17 @@ const b64 = {
 	 * @returns {string} string of the decimal number.
 	 */
 	from(encoded) {
+		if (encoded[Symbol.iterator] === undefined) {
+			throw new TypeError("Encoded B64 must be a string");
+		}
 		let num = 0n;
+		// use positional notation to decipher value: each char is some number * 64**position
+		// we can find some number using dict and position by multipling the previous by 64 until it
+		// reaches its respective position
 		for (const i of encoded) {
 			const v = this.dict[i];
 			if (v === undefined) {
-				throw new SyntaxError(`Invalid char "${i}" in encoded string`)
+				throw new SyntaxError(`Invalid char "${i}" in encoded string`);
 			}
 			num = num * 64n + BigInt(parseInt(v, 8));
 		}
@@ -48,11 +54,22 @@ const b64 = {
 	/**
 	 * @method
 	 * encodes a decimal string to a b64 string
-	 * @param {string} num - string of the decimal number.
+	 * @param {string | number | BigInt} num - the decimal number, preferably as string or BigInt type.
+	 * using number not recommended due to not being able to represent numbers > 2**53 exactly.
 	 * @returns {string} b64 encoded string.
 	 */
 	to(num) {
-		let oct = BigInt(num).toString(8);
+		let oct;
+		// convert the number to an octal string so we can parse with dict the equivalent b64 char
+		try {
+			oct = BigInt(num).toString(8);
+		} catch (e) {
+			if (!["string", "number", "BigInt"].includes(typeof num)) {
+				throw new TypeError("Decimal must represented as string or BigInt", {cause: e});
+			} else {
+				throw new SyntaxError(`"${num}" is not a valid decimal string`, {cause: e});
+			}
+		}
 		let encoded = "";
 		// pad to even length
 		if (oct.length % 2 === 1) {

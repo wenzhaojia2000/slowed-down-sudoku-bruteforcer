@@ -95,12 +95,18 @@ class Bruteforcer {
 	#check() {
 		// check matrix size and check for invalid characters. if user gave strings instead of numbers, convert to numbers
 		for (let i=0; i<9; i++) {
-			for (let j=0; j<9; j++) {
-				const cell = parseInt(this.matrix[i][j]);
-				if (isNaN(cell)) {
-					throw new InvalidSudokuError("Either size of sudoku matrix is incorrect or one or more cells contain invalid characters");
+			if (this.matrix[i] === undefined) {
+					throw new InvalidSudokuError(`Cannot access row ${i+1}: ensure matrix type is correct " + 
+					"with size 9x9 and all cells are defined`);
 				}
-				if (cell < 0 || cell > 9) {
+			for (let j=0; j<9; j++) {
+				if (this.matrix[i][j] === undefined) {
+					throw new InvalidSudokuError(`Cannot access cell in row ${i+1}, column ${j+1}: ` +
+					"ensure matrix size is 9x9 and all cells are defined");
+				}
+				// this will also truncate any decimal places if the user puts them (for some reason)
+				const cell = parseInt(this.matrix[i][j]);
+				if (Number.isNaN(cell) || cell < 0 || cell > 9) {
 					throw new InvalidSudokuError("Please ensure matrix cells only contain the numbers 0 to 9, inclusive");
 				}
 				this.matrix[i][j] = cell;
