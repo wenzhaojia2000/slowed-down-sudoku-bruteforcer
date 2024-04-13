@@ -91,23 +91,23 @@ input.stat {
 	text-align: right;
 }
 
-button.large {
-	width: 150px;
+button {
+	height: 28px;
 	font-size: 100%;
 	margin: 4px;
+}
+
+button.large {
+	width: 150px;
 	font-weight: bold;
 }
 
 button.medium {
 	width: 110px;
-	font-size: 100%;
-	margin: 4px;
 }
 
 button.small {
 	width: 50px;
-	font-size: 100%;
-	margin: 4px;
 }
 
 div.outer {
