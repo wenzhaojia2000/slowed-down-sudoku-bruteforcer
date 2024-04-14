@@ -1,3 +1,6 @@
+import {InvalidSudokuError, Bruteforcer} from "../modules/bruteforcer.js";
+let expect = chai.expect;
+
 describe("bruteforcer.js", function () {
 	const matrix = [
 		[5,3,0,0,7,0,0,0,0],

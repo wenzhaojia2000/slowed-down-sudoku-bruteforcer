@@ -1,4 +1,5 @@
-"use strict";
+import {InvalidSudokuError, Bruteforcer} from "./modules/bruteforcer.js";
+import b64 from "./modules/b64.js";
 
 /**
  * Object which contains a bruteforcer instance, timer, and several useful methods for manipulating the
@@ -393,7 +394,8 @@ function updateCode(event) {
 	const [i, j] = event.target.id;
 	const value = event.target.value;
 	sudoku.codeDecimal[9 * Number(i) + Number(j)] = (value === "") ? "0" : value;
-	const search = "?code=" + b64.to(sudoku.codeDecimal.join(""));
+	const code = b64.to(sudoku.codeDecimal.join(""));
+	const search = (code === "A") ? "" : "?code=" + code;
 	document.getElementById("save").href = window.location.origin + window.location.pathname + search;
 }
 

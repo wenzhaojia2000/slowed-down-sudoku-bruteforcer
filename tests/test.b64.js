@@ -1,3 +1,6 @@
+import b64 from "../modules/b64.js";
+let expect = chai.expect;
+
 describe("b64.js", function () {
 	describe('when dec is converted to b64', function () {
 		function testDecToB64(val, expected) {

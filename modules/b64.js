@@ -81,3 +81,5 @@ const b64 = {
 		return encoded;
 	}
 };
+
+export default b64;

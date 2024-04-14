@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * error class to throw when an invalid matrix is given to the bruteforcer (e.g. invalid characters, incorrect size,
  * invalid placements)
@@ -266,3 +264,5 @@ class Bruteforcer {
 		return [i, j, this.matrix[i][j]];
 	}
 }
+
+export {InvalidSudokuError, Bruteforcer};

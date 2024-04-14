@@ -12,19 +12,15 @@
 	<script src="https://www.chaijs.com/chai.js"></script>
 	<script src="https://unpkg.com/mocha/mocha.js"></script>
 
-	<script class="mocha-init">
+	<script type="module" class="mocha-init">
 		mocha.setup('bdd');
 		mocha.checkLeaks();
-		let expect = chai.expect;
 	</script>
 
-	<script src="../b64.js"></script>
-	<script src="test.b64.js"></script>
+	<script type="module" src="test.b64.js"></script>
+	<script type="module" src="test.bruteforcer.js"></script>
 
-	<script src="../bruteforcer.js"></script>
-	<script src="test.bruteforcer.js"></script>
-
-	<script class="mocha-exec">
+	<script type="module" class="mocha-exec">
 		mocha.run();
 	</script>
 </body>
