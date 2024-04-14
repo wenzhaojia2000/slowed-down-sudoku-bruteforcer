@@ -2,9 +2,9 @@
 
 **Live webpage**: https://wenzhaojia2000.github.io/sudoku/
 
-This is a visualisation project that shows every step of a sudoku backtracking algorithm in "real time" (i.e. slowed down so you can see each iteration). This project does not aim to produce a fast or efficient sudoku solver; some sudokus can take several seconds to solve using the "skip to end" (+∞) button. The project was inspired by [this image](https://commons.wikimedia.org/wiki/File:Sudoku_solved_by_bactracking.gif) on the "Sudoku solving algorithms" Wikipedia page.
+This is a visualisation project that shows every step of a sudoku backtracking algorithm in "real time" (i.e. slowed down so you can see each iteration). This project does not aim to produce a fast or efficient sudoku solver; some sudokus can take several seconds to solve using the "skip to end" (&gg;) button. The project was inspired by [this image](https://commons.wikimedia.org/wiki/File:Sudoku_solved_by_bactracking.gif) on the "Sudoku solving algorithms" Wikipedia page.
 
-To use, simply open `index.html` in your browser.
+To use, start an HTTP server in the repository directory then access the webpage using the browser. To do this in Python, you can type `python3 -m http.server` on the command line then go to `http://localhost:8000/`.
 
 ## Features
 
@@ -17,9 +17,9 @@ To use, simply open `index.html` in your browser.
 
 Tests are stored in the `tests/` directory and are performed inside the browser using [Mocha](https://mochajs.org/) as the test framework with [Chai](https://www.chaijs.com/) as an assertion library.
 
-To test, simply open `tests/index.html` in your browser.
+To test, navigate to the `tests/` subdirectory in your browser (e.g. `http://localhost:8000/tests/`).
 
 ## To-do
 
-- Add ability to solve "X-type" and "Window-type" sudokus.
 - Prevent freezing when pressing the "skip to end" (+∞) button for sudokus that take a long time to solve with the algorithm using asynchronous programming.
+- Add ability to solve "X-type" and "Window-type" sudokus.
