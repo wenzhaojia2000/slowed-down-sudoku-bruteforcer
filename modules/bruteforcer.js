@@ -112,9 +112,6 @@ class Bruteforcer {
 		}
 
 		const errors = new Array();
-		const containsDuplicates = (arr) => {
-			return new Set(arr).size !== arr.length;
-		}
 		// check rows
 		for (let k=0; k<9; k++) {
 			const entries = new Array();
@@ -124,7 +121,7 @@ class Bruteforcer {
 					entries.push(cell);
 				}
 			}
-			if (containsDuplicates(entries)) {
+			if (this.#containsDuplicates(entries)) {
 				errors.push(`Duplicate detected in row ${k + 1}`);
 			}
 		}
@@ -138,7 +135,7 @@ class Bruteforcer {
 					entries.push(cell);
 				}
 			}
-			if (containsDuplicates(entries)) {
+			if (this.#containsDuplicates(entries)) {
 				errors.push(`Duplicate detected in column ${k + 1}`);
 			}
 		}
@@ -153,7 +150,7 @@ class Bruteforcer {
 					entries.push(cell);
 				}
 			}
-			if (containsDuplicates(entries)) {
+			if (this.#containsDuplicates(entries)) {
 				errors.push(`Duplicate detected in block ${blocks.indexOf(item) + 1}`);
 			}
 		});
@@ -202,8 +199,19 @@ class Bruteforcer {
 
 	/**
 	 * @method
+	 * checks whether there is more of one item in an array. returns false if all elements are unique, true
+	 * otherwise.
+	 * @param {any[]} arr - array to check for duplicates
+	 * @returns {boolean}
+	 */
+	#containsDuplicates(arr) {
+		return new Set(arr).size !== arr.length;
+	}
+
+	/**
+	 * @method
 	 * checks whether a cell in the matrix is valid. only returns true or false, no description of which rule is
-	 * broken is given. use check for checking entire sudoku before bruteforcing.
+	 * broken is given.
 	 * @param {number} i - row index (0-8)
 	 * @param {number} j - column index (0-8)
 	 * @returns {boolean}
