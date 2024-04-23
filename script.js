@@ -242,6 +242,70 @@ const sudoku = {
 
 	/**
 	 * @method
+	 * fast-forward processing of the sudoku. does not update intermediate sudoku values on screen,
+	 * only shows final solutions at end. updates number of iterations every half a second.
+	 */
+	fastForward() {
+		clearInterval(this.timer);
+		for (let item of ["left-button", "right-button", "next", "skip", "speed", "speed-up", "speed-down"]) {
+			document.getElementById(item).disabled = true;
+		}
+		// find out how fast limit iterations can be performed. no need to use this.next as we delay
+		// updating sudoku cells on screen at the end.
+		const limit = 250000;
+		const refresh_ms = 500;
+		const start = Date.now();
+		for (let n=0; n<limit; n++) {
+			this.bruteforcer.nextStep();
+		}
+		// if this solves the sudoku just return
+		if (this.bruteforcer.status !== "pending") {
+			this.forceRefresh();
+			document.getElementById("iter").value = String(this.bruteforcer.iter);
+			this.finish(this.bruteforcer.status === "success");
+			for (let item of ["left-button", "speed", "speed-up", "speed-down"]) {
+				document.getElementById(item).disabled = false;
+			}
+			return;
+		}
+		// otherwise, setInterval to complete a good amount of steps per refresh (calculated via the
+		// speed from above). repeat until solved
+		// TO-DO: would be better to replace this with a web worker for proper parallelism but this
+		// would require large restructuring of the code
+		const time_taken = Date.now() - start;
+		const n_steps = Math.floor(refresh_ms * limit/time_taken * 0.95); // *0.95 for a bit of leniency
+		this.timer = setInterval(() => {
+			for (let n=0; n<n_steps; n++) {
+				this.bruteforcer.nextStep();
+			}
+			document.getElementById("iter").value = String(this.bruteforcer.iter);
+			if (this.bruteforcer.status !== "pending") {
+				clearInterval(this.timer);
+				this.forceRefresh();
+				this.finish(this.bruteforcer.status === "success");
+				for (let item of ["left-button", "speed", "speed-up", "speed-down"]) {
+					document.getElementById(item).disabled = false;
+				}
+			}
+		}, refresh_ms);
+	},
+
+	/**
+	 * @method
+	 * sync the sudoku cells on screen to matrix values in this.bruteforcer.
+	 */
+	forceRefresh() {
+		for (let i=0; i<9; i++) {
+			for (let j=0; j<9; j++) {
+				const cell = document.getElementById(String(i) + String(j));
+				const value = this.bruteforcer.matrix[i][j];
+				cell.value = (value === "0") ? "" : value;
+			}
+		}
+	},
+
+	/**
+	 * @method
 	 * declare the sudoku finished, either being a success (turns all numbers filled in by the bruteforcer from red
 	 * to green) or a failure (no possible solution, shows the user an error)
 	 * @param {boolean} status - either true (success) or false (failure)
@@ -484,7 +548,7 @@ function nextStep() {
  * function to call when "Skip to end" is pressed.
  */
 function skipToEnd() {
-	sudoku.next(1e9);
+	sudoku.fastForward();
 }
 
 /**

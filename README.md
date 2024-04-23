@@ -21,5 +21,4 @@ To test, navigate to the `tests/` subdirectory in your browser (e.g. `http://loc
 
 ## To-do
 
-- Prevent freezing when pressing the "skip to end" (+∞) button for sudokus that take a long time to solve with the algorithm using asynchronous programming.
 - Add ability to solve "X-type" and "Window-type" sudokus.
