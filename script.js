@@ -171,8 +171,11 @@ const sudoku = {
 	 */
 	pause() {
 		document.getElementById("right-button").innerText = "Resume";
-		document.getElementById("next").disabled = false;
+		for (let item of ["left-button", "speed", "speed-up", "speed-down", "next", "skip"]) {
+			document.getElementById(item).disabled = false;
+		}
 		clearInterval(this.timer);
+		this.forceRefresh();
 		this.timer = null;
 	},
 
@@ -247,7 +250,8 @@ const sudoku = {
 	 */
 	fastForward() {
 		clearInterval(this.timer);
-		for (let item of ["left-button", "right-button", "next", "skip", "speed", "speed-up", "speed-down"]) {
+		document.getElementById("right-button").innerText = "Pause";
+		for (let item of ["left-button", "next", "skip", "speed", "speed-up", "speed-down"]) {
 			document.getElementById(item).disabled = true;
 		}
 		// find out how fast limit iterations can be performed. no need to use this.next as we delay
@@ -299,7 +303,7 @@ const sudoku = {
 			for (let j=0; j<9; j++) {
 				const cell = document.getElementById(String(i) + String(j));
 				const value = this.bruteforcer.matrix[i][j];
-				cell.value = (value === "0") ? "" : value;
+				cell.value = (value === 0) ? "" : value;
 			}
 		}
 	},
