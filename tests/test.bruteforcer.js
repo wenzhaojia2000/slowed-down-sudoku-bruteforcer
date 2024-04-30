@@ -29,9 +29,7 @@ describe("bruteforcer.js", function () {
 		function testSolution(fill_in_method) {
 			return () => {
 				const bf = new Bruteforcer(fixture["matrix"], fill_in_method);
-				while (bf.status === "pending") {
-					bf.nextStep();
-				}
+				bf.solve();
 				expect(bf.matrix).to.deep.equal(fixture["solution"]);
 			}
 		}

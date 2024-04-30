@@ -271,6 +271,17 @@ class Bruteforcer {
 		this.iter++;
 		return [i, j, this.matrix[i][j]];
 	}
+
+	/**
+	 * @method
+	 * queue up all iterations and attempt to solve the sudoku. may cause lag.
+	 * @returns {void}
+	 */
+	solve() {
+		while (this.status === "pending") {
+			this.nextStep();
+		}
+	}
 }
 
 export {InvalidSudokuError, Bruteforcer};
