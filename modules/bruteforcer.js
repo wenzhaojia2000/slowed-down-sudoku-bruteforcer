@@ -56,8 +56,16 @@ class Bruteforcer {
 	constructor(matrix, fill_in_method="standard", sudoku_type="standard") {
 		// deep copy so user can still access unmodified matrix
 		this.matrix = structuredClone(matrix);
-		this.fillInMethod = fill_in_method;
-		this.sudokuType = sudoku_type;
+		this.fillInMethod = fill_in_method.toLowerCase();
+		this.sudokuType = sudoku_type.toLowerCase();
+
+		if (!["standard", "column", "efficient"].includes(this.fillInMethod)) {
+			throw new RangeError("Fill in method must be one of 'standard', 'column', 'efficient'");
+		}
+		if (!["standard", "x", "window"].includes(this.sudokuType)) {
+			throw new RangeError("Sudoku type must be one of 'standard', 'x', 'window'");
+		}
+
 		this.#check();
 
 		for (let i=0; i<9; i++) {
